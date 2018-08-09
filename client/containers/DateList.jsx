@@ -2,7 +2,8 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import injectSheet from 'react-jss';
 import shortId from 'shortid';
-import getTime from '../utils/getTime'; // figure out aliases with ssr
+import DateListItem from '../components/DateListItem';
+import getTime from '../utils/getTime'; // refactor aliases for ssr
 import * as actions from '../actions/actions';
 
 const styles = {
@@ -19,19 +20,12 @@ const mapStateToProps = store => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  expandDates: () => {
-    dispatch(actions.expandDates());
+  expandDates: (currentLength) => {
+    dispatch(actions.expandDates(currentLength));
   },
 });
 
 class DateList extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      displayKey: [],
-    };
-  }
 
   render() {
     console.log(this.props)
@@ -42,27 +36,27 @@ class DateList extends Component {
       'Village Underground',
       'Fat Black Pussycat'
     ];
-
-    const datesArr = this.props.dates.map((date) => {
+  
+    const datesArr = this.props.dates.map((date, i) => {
       const dateTime = new Date(date.date);
       const showTime = getTime(dateTime);
+      const itemStyle = i < this.props.ui.datesOpenIndex ? { display: 'list-item' } : { display: 'none' };
       return (
-        // <li style={i > 2 ? {display: 'none'} : {display: 'list-item'}}>
-        <Fragment key={shortId.generate()}>
-          <li>
-            <h3>{clubsTemp[date.venueid]}</h3>
-            <time dateTime={date.date}>{showTime}</time>
-          </li>
-        </Fragment>
+        <DateListItem
+          key={shortId.generate()}
+          itemStyle={itemStyle}
+          dateTime={date.date}
+          showTime={showTime}
+          venue={clubsTemp[date.venueid]}
+        />
       );
     });
-
     return (
       <Fragment>
         <h2>Upcoming Shows</h2>
         <ul>
           {datesArr}
-          <button className={this.props.classes['drop-down-btn']} onClick={this.props.expandDates} type="button" >
+          <button className={this.props.classes['drop-down-btn']} onClick={() => this.props.expandDates(this.props.dates.length)} type="button" >
             <i className="material-icons"> arrow_drop_down </i>
           </button>
         </ul>

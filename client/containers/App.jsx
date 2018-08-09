@@ -16,6 +16,7 @@ const mapDispatchToProps = dispatch => ({
   // 
 });
 
+// JSS using lifecycle methods not compatible with React 17
 const styles = theme => ({
   '@global': {
     body: {
