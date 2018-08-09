@@ -1,0 +1,473 @@
+{
+  "clubs": [
+    {
+    "id": 1,
+    "created_date": null,
+    "modified_date": null,
+    "name": "Comedy Cellar",
+    "slug": "Comedy Cellar",
+    "address_1": "1267, 117 Macdougal St",
+    "address_2": null,
+    "address_3": null,
+    "description": "Famous comics are often in the lineup at this brick-walled comedy club with several shows nightly.",
+    "city": "New York",
+    "state": "NY",
+    "postal_code": "10012",
+    "country_code": "US",
+    "latitude": 40.7302002,
+    "longitude": -74.0027526,
+    "timezone": "America/New_York",
+    "contextual_address": "",
+    "neighborhood": "Greenwich Village",
+    "transit": "",
+    "email": null,
+    "phone_number": "(212) 254-3480",
+    "default_store_image": "",
+    "map_pin": {
+      "url": "",
+      "css_class": ""
+    },
+    "redirect_url": "",
+    "image": "https://www.comedycellar.com/v3/reservation/img/logo.png"
+    },
+    {
+      "id": 2,
+      "created_date": null,
+      "modified_date": null,
+      "name": "Village Underground",
+      "slug": "Village Underground",
+      "address_1": "130 W 3rd St",
+      "address_2": null,
+      "address_3": null,
+      "description": "A variety of blues, hip-hop, folk and comedy acts take the stage at this classic Village venue.",
+      "city": "New York",
+      "state": "NY",
+      "postal_code": "10012",
+      "country_code": "US",
+      "latitude": 40.7307003,
+      "longitude": -74.0008492,
+      "timezone": "America/New_York",
+      "contextual_address": "",
+      "neighborhood": "Greenwich Village",
+      "transit": "",
+      "email": null,
+      "phone_number": "(212) 777-7745",
+      "default_store_image": "",
+      "map_pin": {
+        "url": "",
+        "css_class": ""
+      },
+      "redirect_url": "",
+      "image": "http://thevillageunderground.com/wp-content/uploads/2015/01/rklivesquare.jpg"
+    },
+    {
+      "id": 3,
+      "created_date": null,
+      "modified_date": null,
+      "name": "Fat Black Pussycat",
+      "slug": "Fat Black Pussycat",
+      "address_1": "130 W 3rd St",
+      "address_2": null,
+      "address_3": null,
+      "description": "Multipurpose nightspot with sultry lounge, pub & downstairs dance club (the Village Underground).",
+      "city": "New York",
+      "state": "NY",
+      "postal_code": "10012",
+      "country_code": "US",
+      "latitude": 40.7307334,
+      "longitude": -74.0009313,
+      "timezone": "America/New_York",
+      "contextual_address": "",
+      "neighborhood": "Greenwich Village",
+      "transit": "",
+      "email": null,
+      "phone_number": "(212) 533-4790",
+      "default_store_image": "",
+      "map_pin": {
+        "url": "",
+        "css_class": ""
+      },
+      "redirect_url": "",
+      "image": "http://thevillageunderground.com/wp-content/uploads/2015/01/rklivesquare.jpg"
+    }
+  ],
+  "acts": [
+    {
+      "id": 1,
+      "name_first": "Marina",
+      "name_last": "Franklin",
+      "headshot_url": "https://www.comedycellar.com/wp-content/uploads/2013/02/MarianFranklin1-e1361317411995-70x70.jpeg",
+      "dates": [
+        {
+          "venueid": 3,
+          "date": "Thu Jul 26 2018 19:00:00 GMT-0500"
+        },
+        {
+          "venueid": 1,
+          "date": "Thu Jul 26 2018 21:30:00 GMT-0500"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name_first": "William",
+      "name_last": "Stephenson",
+      "headshot_url": "https://www.comedycellar.com/wp-content/uploads/2013/04/ws-e1366533511720-70x70.jpg",
+      "dates": [
+        {
+          "venueid": 1,
+          "date": "Thu Jul 26 2018 19:30:00 GMT-0500"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name_first": "Phil",
+      "name_last": "Hanley",
+      "headshot_url": "https://www.comedycellar.com/wp-content/uploads/2013/04/philhanley-e1366073515245-70x70.jpg",
+      "dates": [
+        {
+          "venueid": 1,
+          "date": "Thu Jul 26 2018 19:30:00 GMT-0500"
+        },
+        {
+          "venueid": 3,
+          "date": "Thu Jul 26 2018 20:30:00 GMT-0500"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name_first": "Emma",
+      "name_last": "Willmann",
+      "headshot_url": "https://www.comedycellar.com/wp-content/uploads/2017/03/EW_030-70x70.jpg",
+      "dates": [
+        {
+          "venueid": 1,
+          "date": "Thu Jul 26 2018 19:30:00 GMT-0500"
+        },
+        {
+          "venueid": 2,
+          "date": "Thu Jul 26 2018 20:00:00 GMT-0500"
+        },
+        {
+          "venueid": 3,
+          "date": "Thu Jul 26 2018 20:30:00 GMT-0500"
+        },
+        {
+          "venueid": 2,
+          "date": "Fri Jul 27 2018 18:00:00 GMT-0500"
+        },
+        {
+          "venueid": 1,
+          "date": "Sat Jul 28 2018 22:30:00 GMT-0500"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name_first": "Michael",
+      "name_last": "Somerville",
+      "headshot_url": "https://www.comedycellar.com/wp-content/uploads/2017/03/EW_030-70x70.jpg",
+      "dates": [
+        {
+          "venueid": 1,
+          "date": "Thu Jul 26 2018 19:30:00 GMT-0500"
+        },
+        {
+          "venueid": 3,
+          "date": "Thu Jul 26 2018 20:30:00 GMT-0500"
+        },
+        {
+          "venueid": 1,
+          "date": "Sat Jul 28 2018 22:30:00 GMT-0500"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name_first": "Keith",
+      "name_last": "Robinson",
+      "headshot_url": "https://www.comedycellar.com/wp-content/uploads/2013/02/keithrobinson-e1361324066184-70x70.jpg",
+      "dates": [
+        {
+          "venueid": 1,
+          "date": "Thu Jul 26 2018 19:30:00 GMT-0500"
+        },
+        {
+          "venueid": 2,
+          "date": "Fri Jul 27 2018 18:00:00 GMT-0500"
+        }
+        
+      ]
+    },
+    {
+      "id": 7,
+      "name_first": "Ryan",
+      "name_last": "Hamilton",
+      "headshot_url": "https://www.comedycellar.com/wp-content/uploads/2013/02/ryanhamilton1-e1361315985758-70x70.jpg",
+      "dates": [
+        {
+          "venueid": 1,
+          "date": "Thu Jul 26 2018 19:30:00 GMT-0500"
+        },
+        {
+          "venueid": 2,
+          "date": "Thu Jul 26 2018 20:00:00 GMT-0500"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name_first": "Jon",
+      "name_last": "Laster",
+      "headshot_url": "https://www.comedycellar.com/wp-content/uploads/2016/07/JON-LASTER-70x70.jpg",
+      "dates": [
+        {
+          "venueid": 2,
+          "date": "Thu Jul 26 2018 20:00:00 GMT-0500"
+        },
+        {
+          "venueid": 2,
+          "date": "Fri Jul 27 2018 18:00:00 GMT-0500"
+        },
+        {
+          "venueid": 2,
+          "date": "Fri Jul 27 2018 18:00:00 GMT-0500"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "name_first": "Gregg",
+      "name_last": "Rogell",
+      "headshot_url": "https://www.comedycellar.com/wp-content/uploads/2013/02/gregrogell-e1361318803193-70x70.jpg",
+      "dates": [
+        {
+          "venueid": 2,
+          "date": "Thu Jul 26 2018 20:00:00 GMT-0500"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name_first": "Rick",
+      "name_last": "Crom",
+      "headshot_url": "https://www.comedycellar.com/wp-content/uploads/2013/04/rickcrom-e1366140084779-70x70.jpeg",
+      "dates": [
+        {
+          "venueid": 2,
+          "date": "Thu Jul 26 2018 20:00:00 GMT-0500"
+        },
+        {
+          "venueid": 2,
+          "date": "Fri Jul 27 2018 18:00:00 GMT-0500"
+        },
+        {
+          "venueid": 1,
+          "date": "Sat Jul 28 2018 22:30:00 GMT-0500"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "name_first": "Des",
+      "name_last": "Bishop",
+      "headshot_url": "https://www.comedycellar.com/wp-content/uploads/2015/06/Des-Bishop-70x70.jpg",
+      "dates": [
+        {
+          "venueid": 2,
+          "date": "Thu Jul 26 2018 20:00:00 GMT-0500"
+        },
+        {
+          "venueid": 1,
+          "date": "Thu Jul 26 2018 21:30:00 GMT-0500"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "name_first": "Noah",
+      "name_last": "Gardenswartz",
+      "headshot_url": "https://www.comedycellar.com/wp-content/uploads/2018/01/NG-Headshot1-70x70.jpg",
+      "dates": [
+        {
+          "venueid": 2,
+          "date": "Thu Jul 26 2018 20:00:00 GMT-0500"
+        },
+        {
+          "venueid": 3,
+          "date": "Thu Jul 26 2018 20:30:00 GMT-0500"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "name_first": "Wil",
+      "name_last": "Sylvince",
+      "headshot_url": "https://www.comedycellar.com/wp-content/uploads/2018/01/NG-Headshot1-70x70.jpg",
+      "dates": [
+        {
+          "venueid": 3,
+          "date": "Thu Jul 26 2018 20:30:00 GMT-0500"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "name_first": "Gary",
+      "name_last": "Vider",
+      "headshot_url": "https://www.comedycellar.com/wp-content/uploads/2015/11/gary-Vider-70x70.jpg",
+      "dates": [
+        {
+          "venueid": 3,
+          "date": "Thu Jul 26 2018 20:30:00 GMT-0500"
+        },
+        {
+          "venueid": 2,
+          "date": "Fri Jul 27 2018 20:45:00 GMT-0500"
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "name_first": "Matt",
+      "name_last": "Ruby",
+      "headshot_url": "https://www.comedycellar.com/wp-content/uploads/2017/06/matt-ruby1-70x70.jpeg",
+      "dates": [
+        {
+          "venueid": 3,
+          "date": "Thu Jul 26 2018 20:30:00 GMT-0500"
+        },
+        {
+          "venueid": 2,
+          "date": "Fri Jul 27 2018 18:00:00 GMT-0500"
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "name_first": "Mark",
+      "name_last": "Normand",
+      "headshot_url": "https://www.comedycellar.com/wp-content/uploads/2013/04/marknormand-e1366074149644-70x70.jpg",
+      "dates": [
+        {
+          "venueid": 3,
+          "date": "Thu Jul 26 2018 20:30:00 GMT-0500"
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "name_first": "Jon",
+      "name_last": "Fisch",
+      "headshot_url": "https://www.comedycellar.com/wp-content/uploads/2013/04/jonfisch-e1366073669758-70x70.jpg",
+      "dates": [
+        {
+          "venueid": 1,
+          "date": "Thu Jul 26 2018 21:30:00 GMT-0500"
+        },
+        {
+          "venueid": 1,
+          "date": "Fri Jul 27 2018 20:45:00 GMT-0500"
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "name_first": "Nathan",
+      "name_last": "Macintosh",
+      "headshot_url": "https://www.comedycellar.com/wp-content/uploads/2017/10/MG_0118-70x70.jpg",
+      "dates": [
+        {
+          "venueid": 1,
+          "date": "Thu Jul 26 2018 21:30:00 GMT-0500"
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "name_first": "Ted",
+      "name_last": "Alexandro",
+      "headshot_url": "https://www.comedycellar.com/wp-content/uploads/2013/02/tedalexandro-e1361319874902-70x70.jpg",
+      "dates": [
+        {
+          "venueid": 1,
+          "date": "Thu Jul 26 2018 21:30:00 GMT-0500"
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "name_first": "Alingon",
+      "name_last": "Mitra",
+      "headshot_url": "https://www.comedycellar.com/wp-content/uploads/2015/05/ALINGON-MITRA-70x70.jpg",
+      "dates": [
+        {
+          "venueid": 2,
+          "date": "Fri Jul 27 2018 18:00:00 GMT-0500"
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "name_first": "Dan",
+      "name_last": "Naturman",
+      "headshot_url": "https://www.comedycellar.com/wp-content/uploads/2013/04/dannuturman-e1366532450462-70x70.jpg",
+      "dates": [
+        {
+          "venueid": 2,
+          "date": "Fri Jul 27 2018 18:00:00 GMT-0500"
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "name_first": "DC",
+      "name_last": "Benny",
+      "headshot_url": "https://www.comedycellar.com/wp-content/uploads/2013/04/dcbenny-e1366073356644-70x70.jpg",
+      "dates": [
+        {
+          "venueid": 2,
+          "date": "Fri Jul 27 2018 20:45:00 GMT-0500"
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "name_first": "Lenny",
+      "name_last": "Marcus",
+      "headshot_url": "https://www.comedycellar.com/wp-content/uploads/2013/02/lennymarcus2-e1361315128423-70x70.jpg",
+      "dates": [
+        {
+          "venueid": 2,
+          "date": "Fri Jul 27 2018 18:00:00 GMT-0500"
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "name_first": "Nimesh",
+      "name_last": "Patel",
+      "headshot_url": "https://www.comedycellar.com/wp-content/uploads/2016/06/1462767_10102397232408839_216877510_o1-70x70.jpg",
+      "dates": [
+        {
+          "venueid": 2,
+          "date": "Sat Jul 28 2018 20:45:00 GMT-0500"
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "name_first": "Kevin",
+      "name_last": "Brennan",
+      "headshot_url": "https://www.comedycellar.com/wp-content/uploads/2013/12/kevin-Brennan.bmp",
+      "dates": [
+        {
+          "venueid": 1,
+          "date": "Sat Jul 28 2018 22:30:00 GMT-0500"
+        }
+      ]
+    }
+  ]
+}
