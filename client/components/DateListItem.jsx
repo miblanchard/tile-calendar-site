@@ -15,6 +15,6 @@ DateListItem.propTypes = {
   dateTime: PropTypes.string.isRequired,
   showTime: PropTypes.string.isRequired,
   venue: PropTypes.string.isRequired
-}
+};
 
 export default DateListItem;

@@ -38,7 +38,7 @@ class App extends Component {
   }
 
   render() {
-    console.log('app render')
+    // console.log('app render')
     const { classes } = this.props;
     const actsArr = dummy.acts.map(act => (
       <ActTile

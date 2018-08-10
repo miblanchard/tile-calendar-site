@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { ThemeProvider } from 'react-jss';
 import App from './containers/App';
 // import rootSaga from './sagas/index';
-import configureStore from './configureStore';
+import configureStore from './redux/configureStore';
 
 class Main extends React.Component {
   // Remove the server-side injected CSS.

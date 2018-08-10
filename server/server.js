@@ -9,7 +9,7 @@ import {
   JssProvider,
   ThemeProvider
 } from 'react-jss/lib';
-import configureStore from '../client/configureStore';
+import configureStore from '../client/redux/configureStore';
 // import rootSaga from '../sagas/index';
 import renderFullPage from './renderFullPage';
 import App from '../client/containers/App';
