@@ -2,7 +2,7 @@ import { createStore, compose, combineReducers } from 'redux';
 // import createSagaMiddleware, { END } from 'redux-saga';
 // import reducers from './reducers/index';
 import reducerRegistry from './reducerRegistry';
-import * as red from './modules/index';
+import * as ducks from './modules/index'; // eslint-disable-line
 
 /* eslint-disable no-underscore-dangle */
 const composeEnhancers =

@@ -6,8 +6,6 @@ import DateList from './DateList';
 import ActTile from '../components/ActTile';
 import dummy from '../../data/dummy.json';
 
-import * as actions from '../actions/actions';
-
 const mapStateToProps = store => ({
   // 
 });

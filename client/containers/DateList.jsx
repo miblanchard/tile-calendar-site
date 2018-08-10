@@ -24,7 +24,8 @@ const mapDispatchToProps = dispatch => (
 );
 
 const DateList = (props) => {
-  console.log(props)
+  console.log('props', props);
+  console.log('propsui', props.ui);
   // this is meant to be a placeholder while formatting, obv need to refactor this later
   const clubsTemp = [
     null,
@@ -36,7 +37,12 @@ const DateList = (props) => {
   const datesArr = props.dates.map((date, i) => {
     const dateTime = new Date(date.date);
     const showTime = getTime(dateTime);
-    const itemStyle = i < props.ui.datesOpenIndex ? { display: 'list-item' } : { display: 'none' };
+    const instanceIndex = `datesOpenIndex${props.id}`;
+    console.log('ln 39', props.ui[instanceIndex]);
+    const index = props.ui[instanceIndex] ? props.ui[instanceIndex] : 1;
+    console.log('index', index);
+    const itemStyle = i <= index ? { display: 'list-item' } : { display: 'none' };
+
     return (
       <DateListItem
         key={shortId.generate()}
@@ -53,7 +59,7 @@ const DateList = (props) => {
       <h2>Upcoming Shows</h2>
       <ul>
         {datesArr}
-        <button className={props.classes['drop-down-btn']} onClick={() => props.expandDates(props.dates.length)} type="button" >
+        <button className={props.classes['drop-down-btn']} onClick={() => { console.log('onClick'); props.expandDates(props.dates.length, props.id);}} type="button" >
           <i className="material-icons"> arrow_drop_down </i>
         </button>
       </ul>
