@@ -20,6 +20,9 @@ const styles = theme => ({
     body: {
       font: '100% Helvetica, sans-serif',
       backgroundColor: '#fffff4',
+    },
+    ul: {
+      'list-style': 'none'
     }
   },
   wrapper: {

@@ -23,5 +23,13 @@
     "no-unused-vars": ["error", { "args": "none" }],
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "import/no-extraneous-dependencies": ["error", {"devDependencies": true}]
-  }
+  },
+  "overrides": [
+    {
+      "files": ["*.test.jsx", "*.test.js", "*.spec.js"],
+      "rules": {
+        "react/react-in-jsx-scope": "off"
+      }
+    }
+  ]
 }

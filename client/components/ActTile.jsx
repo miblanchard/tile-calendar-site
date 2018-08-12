@@ -1,19 +1,18 @@
-import React, { Fragment, Component } from 'react';
+import React from 'react';
 import injectSheet from 'react-jss';
 
 const styles = theme => ({
   root: {
-    '@media (max-width: 320px)': {
+    '@media (max-width: 600px)': {
       'min-width': '100%',
+      height: 'auto',
+    },
+    overflow: 'scroll',
+    '@media (min-width: 601px)': {
+      'min-width': '320px',
       height: 'auto',
       margin: 0,
     },
-    overflow: 'scroll',
-    // '@media (max-width: 600px)': {
-    //   width: '600px',
-    //   height: 'auto',
-    //   margin: 0,
-    // },
     // '@media (max-width: 601px)': {
     //   width: '',
     //   height: 'auto',
@@ -22,19 +21,18 @@ const styles = theme => ({
     // width: 'calc(100% / 6)',
     height: 'calc(100% / 2)',
     // margin: '1rem',
-    margin: 0,
+    margin: '0 0 1rem 0',
     padding: '1rem',
     border: '1px solid #00000036',
     boxShadow: '2px 5px 5px #888888',
     fontFamily: 'Lato',
     fontSize: '0.75rem',
-    color: '#333333',
+    color: '#f9f9f9',
     letterSpacing: '0.01rem',
-    backgroundColor: 'white',
+    backgroundColor: '#6666ff',
     '& h2': {
       fontWeight: 700,
       fontSize: '1.25rem',
-      color: '#222222',
       lineHeight: '1.5rem',
       margin: 0,
     },
@@ -55,7 +53,7 @@ const styles = theme => ({
     }
   },
   artistBody: {
-    // display: 'inline-block',
+    margin: 'auto',
   }
 });
 
