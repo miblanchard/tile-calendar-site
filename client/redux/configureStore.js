@@ -38,7 +38,6 @@ const configureStore = (initialState) => {
 
   // Replace the store's reducer whenever a new reducer is registered.
   reducerRegistry.setChangeListener((newReducers) => {
-    console.log('setchange', newReducers);
     store.replaceReducer(combine(newReducers));
   });
 

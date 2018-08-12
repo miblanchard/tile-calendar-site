@@ -36,4 +36,6 @@ const jsx = (
   </Provider>
 );
 
+console.log('nav', navigator)
+
 ReactDOM.hydrate(jsx, document.getElementById('root'));

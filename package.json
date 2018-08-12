@@ -7,12 +7,13 @@
   "private": true,
   "scripts": {
     "start": "nodemon server/server.js --exec babel-node --presets env",
-    "build": "webpack -p --config webpack.prod.js --profile --json > stats.json",
-    "build:dev": "webpack --watch --progress --config webpack.dev.js",
+    "build": "webpack -p --config webpack/webpack.prod.js --profile --json > stats.json",
+    "build:dev": "webpack --watch --progress --config webpack/webpack.dev.js",
     "analyze": "webpack-bundle-analyzer stats.json",
     "lint": "eslint --ext .jsx --config .eslintrc -o lint_result.txt ./client"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "bcrypt": "^3.0.0",
     "express": "^4.16.3",
     "graphql-yoga": "^1.14.12",

@@ -41,8 +41,6 @@ const mapDispatchToProps = dispatch => (
 );
 
 const DateList = (props) => {
-  console.log('props', props);
-  console.log('propsui', props.ui);
   // this is meant to be a placeholder while formatting, obv need to refactor this later
   const clubsTemp = [
     null,

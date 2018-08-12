@@ -2,9 +2,9 @@ const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
-  entry: './client/index.js',
+  entry: path.resolve(__dirname, '..', 'client/', 'index.js'),
   output: {
-    path: path.resolve(__dirname, 'build'),
+    path: path.resolve(__dirname, '..', 'build'),
     publicPath: '/build',
     filename: 'bundle.js',
   },
@@ -19,15 +19,18 @@ module.exports = {
       {
         test: /\.jsx?$/,
         include: [
-          path.resolve(__dirname, 'client')
+          path.resolve(__dirname, '..', 'client')
         ],
         use: [
-          { loader: 'babel-loader' },
+          'babel-loader',
         ]
       },
     ],
   },
   plugins: [
-    new CleanWebpackPlugin(['build/*.*']),
+    new CleanWebpackPlugin(
+      path.resolve(__dirname, '..', 'build/*.*'),
+      { exclude: ['data.json'] }
+    ),
   ],
 };
