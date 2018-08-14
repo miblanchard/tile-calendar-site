@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import ajaxErrorHandler from '../utils/ajaxErrorHandler';
 import ActTile from '../components/ActTile';
 import DateList from '../components/DateList';
+import Searchbar from '../components/Searchbar';
 
 // JSS using lifecycle methods not compatible with React 17
 const styles = theme => ({
@@ -52,7 +53,9 @@ class App extends Component {
 
     this.state = {
       cachedData: null,
+      actMap: [],
       actTileUi: {},
+      searchText: '',
       redirectHome: false
     };
 
@@ -60,6 +63,8 @@ class App extends Component {
     this.handleTileClick = this.handleTileClick.bind(this);
     this.setWrapperRef = this.setWrapperRef.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
+    this.handleSearchChange = this.handleSearchChange.bind(this);
+    this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -69,18 +74,21 @@ class App extends Component {
     }).then((result) => {
       this.setState((() => {
         let actTileUi = {};
+        const actMap = [];
         result.data.acts.forEach((act) => {
-          actTileUi = Object.assign(actTileUi, { [act.id]: { active: false } });
+          actTileUi = Object.assign(actTileUi, { [act.id]: { active: false, display: true } });
+          actMap.push([act.id, `${act.name_first} ${act.name_last}`]);
         });
         return {
           cachedData: result.data,
+          actMap,
           actTileUi
         };
       }));
     }).catch(ajaxErrorHandler);
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState) {
     if (this.state.redirectHome) {
       this.setState({
         redirectHome: false
@@ -119,6 +127,47 @@ class App extends Component {
     }
   }
 
+  handleSearchSubmit() {
+
+  }
+
+  handleSearchChange(e) {
+    const { currentTarget } = e;
+    const matches = [];
+    const notMatches = [];
+    this.state.actMap.forEach((act) => {
+      if (act[1].toLowerCase().includes(currentTarget.value.toLowerCase())) {
+        matches.push(act);
+      } else {
+        notMatches.push(act);
+      }
+    });
+
+    this.setState((prevState) => {
+      let actTileUi = Object.assign({}, prevState.actTileUi);
+      matches.forEach((act) => {
+        actTileUi = Object.assign(actTileUi, {
+          [act[0]]: {
+            ...actTileUi[act[0]],
+            display: true
+          }
+        });
+      });
+      notMatches.forEach((act) => {
+        actTileUi = Object.assign(actTileUi, {
+          [act[0]]: {
+            ...actTileUi[act[0]],
+            display: false
+          }
+        });
+      });
+      return {
+        searchText: currentTarget.value,
+        actTileUi
+      }
+    });
+  }
+
   handleTileClick(id) {
     if (!this.state.actTileUi[id].active) {
       console.log('handleTileClick')
@@ -134,6 +183,7 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.state)
     const { classes } = this.props;
     if (this.state.redirectHome) return <Redirect to="/" />;
 
@@ -148,11 +198,12 @@ class App extends Component {
             ref={node => this.setWrapperRef(node, act.id)}
             id={act.id}
             active={this.state.actTileUi[act.id].active}
+            display={this.state.actTileUi[act.id].display}
             name_first={act.name_first}
             name_last={act.name_last}
             headshot_url={act.headshot_url}
             handleClick={this.handleTileClick}
-            >
+          >
             <Switch>
               <Route
                 path={`/datelist/${act.id}`}
@@ -179,6 +230,11 @@ class App extends Component {
 
     return (
       <div>
+        <Searchbar
+          value={this.state.searchText}
+          handleChange={this.handleSearchChange}
+          handleSubmit={this.handleSearchSubmit}
+        />
         <div className={classes.wrapper}>
           {actsArr}
         </div>

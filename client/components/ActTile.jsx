@@ -60,7 +60,7 @@ class ActTile extends Component {
 
   render() {
     const { classes } = this.props;
-    
+    if (!this.props.display) return null;
     return (
       <div className={classes['act-tile-root']}>
         <Link to={`/datelist/${this.props.id}`} onClick={() => this.props.handleClick(this.props.id)}>
