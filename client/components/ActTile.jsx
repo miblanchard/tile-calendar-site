@@ -1,22 +1,15 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { Link, Route, Switch } from 'react-router-dom';
+import classNames from 'classnames';
 import injectSheet from 'react-jss';
 
 const styles = theme => ({
-  root: {
-    '@media (max-width: 600px)': {
-      width: '320px',
-      height: 'auto',
-      'margin-bottom': '1rem',
-      'border-radius': '0.2rem',
-      overflow: 'hidden',
-    },
-    '@media (min-width: 601px)': {
-      width: '320px',
-      height: 'auto',
-      'margin-bottom': '1rem',
-      'border-radius': '0.2rem',
-      overflow: 'hidden',
-    },
+  'act-tile-root': {
+    'min-width': '320px',
+    width: '320px',
+    height: 'auto',
+    'margin-bottom': '1rem',
+    'border-radius': '0.2rem',
   },
   overlay: {
     height: '426px',
@@ -26,14 +19,17 @@ const styles = theme => ({
     'justify-content': 'center',
     '& .headshot': {
       position: 'absolute',
-      opacity: 0.75,
       width: '100%',
       height: '100%',
-      '&:hover': {
-        opacity: 1
-      }
     },
+    padding: '20px',
     '& .act-name': {
+      'text-shadow': [
+        ['1px', '1px', '#000'],
+        ['-1px', '-1px', '#000'],
+        ['-1px', '1px', '#000'],
+        ['1px', '-1px', '#000']
+      ],
       position: 'absolute',
       color: '#f9f9f9',
       border: '1px solid #f9f9f9',
@@ -41,67 +37,51 @@ const styles = theme => ({
       padding: '0.25rem 1rem',
       margin: 'auto',
     },
-
-  }
-  // root: {
-  //   '@media (max-width: 600px)': {
-  //     'min-width': '100%',
-  //     height: 'auto',
-  //   },
-  //   overflow: 'scroll',
-  //   '@media (min-width: 601px)': {
-  //     'min-width': '320px',
-  //     height: 'auto',
-  //     margin: 0,
-  //   },
-  //   // '@media (max-width: 601px)': {
-  //   //   width: '',
-  //   //   height: 'auto',
-  //   //   margin: 0,
-  //   // },
-  //   // width: 'calc(100% / 6)',
-  //   height: 'calc(100% / 2)',
-  //   // margin: '1rem',
-  //   margin: '0 0 1rem 0',
-  //   padding: '1rem',
-  //   border: '1px solid #00000036',
-  //   boxShadow: '2px 5px 5px #888888',
-  //   fontFamily: 'Lato',
-  //   fontSize: '0.75rem',
-  //   color: '#f9f9f9',
-  //   letterSpacing: '0.01rem',
-  //   backgroundColor: '#6666ff',
-  //   '& h2': {
-  //     fontWeight: 700,
-  //     fontSize: '1.25rem',
-  //     lineHeight: '1.5rem',
-  //     margin: 0,
-  //   },
-  //   '& h3': {
-  //     fontWeight: 700,
-  //     lineHeight: '0.75rem',
-  //     marginBottom: 0,
-  //   },
-  // },
+  },
+  overlayInactive: {
+    opacity: 0.8,
+    '&:hover': {
+      opacity: 1
+    },
+  },
+  overlayActive: {
+    position: 'absolute',
+    background: 'rgba(0, 0, 0, 0.5)',
+    width: '100%',
+    height: '100%',
+    'z-index': 1
+  },
 });
 
-const ActTile = (props) => {
-  const { classes } = props;
+class ActTile extends Component {
+  constructor(props) {
+    super(props);
+  }
 
-  return (
-    <div className={classes.root}>
-      <a className={classes.overlay} href="#">
-        {/* <div className={classes.overlay}> */}
-          <img className="headshot" src={props.headshot_url} alt={`${props.name_first}`}  />
-          <h3 className="act-name">{`${props.name_first} ${props.name_last}`}</h3>
-        {/* </div> */}
-      </a>
-      {/* <hr />
-      <div className={classes.artistBody}>
-        {props.children}
-      </div> */}
-    </div>
-  );
-}
+  render() {
+    const { classes } = this.props;
+    
+    return (
+      <div className={classes['act-tile-root']}>
+        <Link to={`/datelist/${this.props.id}`} onClick={() => this.props.handleClick(this.props.id)}>
+          <div
+            // className={classNames(classes.overlay, classes.overlayInactive)}
+            className={classNames(classes.overlay, {
+              [classes.overlayInactive]: !this.props.active
+            })}
+            >
+            <div
+              className={classNames({
+                [classes.overlayActive]: this.props.active,
+              })}
+              />
+            <img className="headshot" src={this.props.headshot_url} alt={`${this.props.name_first}`}  />
+            {this.props.children}
+          </div>
+        </Link>
+      </div>
+    );
+  }
+};
 
 export default injectSheet(styles)(ActTile);

@@ -4,39 +4,48 @@ import PropTypes from 'prop-types';
 
 const styles = {
   'date-list-item': {
+    'border-top': '1px solid #f9f9f9',
+    // padding: '0.2rem',
     position: 'relative',
-    height: '2em',
     'font-size': '0.75rem',
-    'border-bottom': '1px solid #f2f2f2',
+    color: '#f9f9f9'
   },
   venue: {
-    position: 'absolute',
-    width: '80%',
+    width: '75%',
+    'margin-top': '1rem',
     display: 'inline-block',
-    'text-align': 'left',
-    'margin-top': '0.2rem'
+    'padding-left': '0.5rem'
   },
   time: {
+    width: '25%',
     position: 'absolute',
-    left: '80%',
-    width: '20%'
+    display: 'inline-block',
+    left: '75%',
+    'text-align': 'right',
+    'padding-right': '0.5rem',
+    margin: '1rem auto',
+    'box-sizing': 'border-box'
   }
 };
 
 const DateListItem = props => (
   <li className={props.classes['date-list-item']}>
-    <h3 className={props.classes.venue}>{props.venue}</h3>
-    <time className={props.classes.time} dateTime={props.dateTime}>{props.showTime}</time>
+    <p className={props.classes.venue}>{props.venue}</p>
+    <p className={props.classes.time}>
+      <time dateTime={props.dateTime}>
+        {props.showTime}
+      </time>
+    </p>
   </li>
 );
 
-DateListItem.propTypes = {
-  // itemStyle: PropTypes.shape({
-  //   display: PropTypes.string.isRequired
-  // }).isRequired,
-  dateTime: PropTypes.string.isRequired,
-  showTime: PropTypes.string.isRequired,
-  venue: PropTypes.string.isRequired
-};
+// DateListItem.propTypes = {
+//   // itemStyle: PropTypes.shape({
+//   //   display: PropTypes.string.isRequired
+//   // }).isRequired,
+//   dateTime: PropTypes.string.isRequired,
+//   showTime: PropTypes.string.isRequired,
+//   venue: PropTypes.string.isRequired
+// };
 
 export default injectSheet(styles)(DateListItem);

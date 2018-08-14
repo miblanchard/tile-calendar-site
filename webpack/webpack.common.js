@@ -30,7 +30,11 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(
       path.resolve(__dirname, '..', 'build/*.*'),
-      { exclude: ['data.json'] }
+      {
+        root: path.resolve(__dirname, '..'),
+        verbose: true,
+        exclude: ['data.json']
+      }
     ),
   ],
 };

@@ -1,10 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
 import { ThemeProvider } from 'react-jss';
+import { BrowserRouter } from 'react-router-dom';
 import App from './containers/App';
-// import rootSaga from './sagas/index';
-import configureStore from './redux/configureStore';
 
 class Main extends React.Component {
   // Remove the server-side injected CSS.
@@ -16,7 +14,11 @@ class Main extends React.Component {
   }
 
   render() {
-    return <App />;
+    return (
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    )
   }
 }
 
@@ -25,17 +27,10 @@ const theme = {
   colorSecondary: '#ff9933'
 };
 
-const store = configureStore(window.REDUX_DATA);
-// store.runSaga(rootSaga);
-
 const jsx = (
-  <Provider store={store}>
-    <ThemeProvider theme={theme}>
-      <Main />
-    </ThemeProvider>
-  </Provider>
+  <ThemeProvider theme={theme}>
+    <Main />
+  </ThemeProvider>
 );
-
-console.log('nav', navigator)
 
 ReactDOM.hydrate(jsx, document.getElementById('root'));
