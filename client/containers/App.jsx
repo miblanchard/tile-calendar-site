@@ -7,6 +7,7 @@ import axios from 'axios';
 import shortId from 'shortid';
 import PropTypes from 'prop-types';
 import ajaxErrorHandler from '../utils/ajaxErrorHandler';
+import shuffle from '../utils/shuffle';
 import ActTile from '../components/ActTile';
 import DateList from '../components/DateList';
 import Searchbar from '../components/Searchbar';
@@ -56,7 +57,8 @@ class App extends Component {
       actMap: [],
       actTileUi: {},
       searchText: '',
-      redirectHome: false
+      redirectHome: false,
+      actKeysReordered: []
     };
 
     this.source = axios.CancelToken.source();
@@ -69,20 +71,22 @@ class App extends Component {
 
   componentDidMount() {
     // initial data fetch
-    axios.get(path.resolve(__dirname, 'data/dummy.json'), {
+    axios.get(path.resolve(__dirname, 'data/data.json'), {
       cancelToken: this.source.token
     }).then((result) => {
       this.setState((() => {
         let actTileUi = {};
         const actMap = [];
-        result.data.acts.forEach((act) => {
-          actTileUi = Object.assign(actTileUi, { [act.id]: { active: false, display: true } });
-          actMap.push([act.id, `${act.name_first} ${act.name_last}`]);
+        const acts = Object.keys(result.data.acts);
+        acts.forEach((act) => {
+          actTileUi = Object.assign(actTileUi, { [result.data.acts[act].id]: { active: false, display: true } });
+          actMap.push([result.data.acts[act].id, `${act}`]);
         });
         return {
           cachedData: result.data,
           actMap,
-          actTileUi
+          actTileUi,
+          actKeysReordered: shuffle(Object.keys(result.data.acts))
         };
       }));
     }).catch(ajaxErrorHandler);
@@ -109,21 +113,21 @@ class App extends Component {
 
   handleClickOutside(e, id) {
     const key = `wrapperRef${id}`;
-    const node = findDOMNode(this[key])
+    const node = findDOMNode(this[key]);
     console.log('event', e)
     console.log('key', key)
     console.log('this[key]', node)
-    console.log('this[key].contains(e.target)', node.contains(e.target));
+    // console.log('this[key].contains(e.target)', node.contains(e.target));
     console.log('e.target', e.target)
     if (node && !node.contains(e.target)) {
-      this.setState({
+      this.setState(prevState => ({
         actTileUi: Object.assign(
           {},
-          this.state.actTileUi,
-          { [id]: { active: false } }
+          prevState.actTileUi,
+          { [id]: { ...prevState.actTileUi[id], active: false } }
         ),
         redirectHome: true
-      });
+      }));
     }
   }
 
@@ -172,13 +176,13 @@ class App extends Component {
     if (!this.state.actTileUi[id].active) {
       console.log('handleTileClick')
       document.addEventListener('click', e => this.handleClickOutside(e, id), { once: true });
-      this.setState({
+      this.setState(prevState => ({
         actTileUi: Object.assign(
           {},
-          this.state.actTileUi,
-          { [id]: { active: true } }
+          prevState.actTileUi,
+          { [id]: { ...prevState.actTileUi[id], active: true } }
         ),
-      });
+      }));
     }
   }
 
@@ -187,46 +191,51 @@ class App extends Component {
     const { classes } = this.props;
     if (this.state.redirectHome) return <Redirect to="/" />;
 
-    const actsArr = this.state.cachedData &&
-      this.state.cachedData.acts &&
-      this.state.cachedData.acts.map((act) => {
-        // const SlideOpenRoute = ({ component: Component, ...rest}) => (
-        // )
-        return (
-          <ActTile
-            key={shortId.generate()}
-            ref={node => this.setWrapperRef(node, act.id)}
-            id={act.id}
-            active={this.state.actTileUi[act.id].active}
-            display={this.state.actTileUi[act.id].display}
-            name_first={act.name_first}
-            name_last={act.name_last}
-            headshot_url={act.headshot_url}
-            handleClick={this.handleTileClick}
-          >
-            <Switch>
-              <Route
-                path={`/datelist/${act.id}`}
-                render={props => (
-                  <DateList
-                    {...props}
-                    id={act.id}
-                    dates={act.dates}
-                    name_first={act.name_first}
-                    name_last={act.name_last}
-                  />
+    const buildTiles = () => {
+      const result = [];
+      if (this.state.cachedData && this.state.cachedData.acts) {
+        for (let i = 0; i < this.state.actKeysReordered.length; i++) {
+          const act = this.state.cachedData.acts[this.state.actKeysReordered[i]];
+          result.push(
+            <ActTile
+              key={act.id}
+              ref={node => this.setWrapperRef(node, act.id)}
+              id={act.id}
+              active={this.state.actTileUi[act.id].active}
+              display={this.state.actTileUi[act.id].display}
+              name_first={act.name_first}
+              name_last={act.name_last}
+              headshot_url={act.headshot_url}
+              handleClick={this.handleTileClick}
+            >
+              <Switch>
+                <Route
+                  path={`/datelist/${act.id}`}
+                  render={props => (
+                    <DateList
+                      {...props}
+                      id={act.id}
+                      dates={act.dates}
+                      name_first={act.name_first}
+                      name_last={act.name_last}
+                    />
+                  )}
+                />
+                <Route
+                  path="/"
+                  render={() => (
+                    <h3 className="act-name">{`${act.name_first} ${act.name_last}`}</h3>
                 )}
-              />
-              <Route
-                path="/"
-                render={() => (
-                  <h3 className="act-name">{`${act.name_first} ${act.name_last}`}</h3>
-              )}
-              />
-            </Switch>
-          </ActTile>
-        );
-      });
+                />
+              </Switch>
+            </ActTile>
+          );
+        }
+      }
+      return result;
+    };
+
+    const actsArr = buildTiles();
 
     return (
       <div>

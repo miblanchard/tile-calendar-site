@@ -66,8 +66,10 @@ const DateList = (props) => {
       <DateListItem
         key={shortId.generate()}
         dateTime={date.date}
+        link={date.link}
         showTime={showTime}
         venue={clubsTemp[date.venueid]}
+        index={i}
       />
     );
   });

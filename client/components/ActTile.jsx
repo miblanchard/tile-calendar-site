@@ -58,12 +58,10 @@ class ActTile extends Component {
     super(props);
   }
 
+  
   render() {
     const { classes } = this.props;
-    if (!this.props.display) return null;
-    return (
-      <div className={classes['act-tile-root']}>
-        <Link to={`/datelist/${this.props.id}`} onClick={() => this.props.handleClick(this.props.id)}>
+    const content = (
           <div
             // className={classNames(classes.overlay, classes.overlayInactive)}
             className={classNames(classes.overlay, {
@@ -78,6 +76,19 @@ class ActTile extends Component {
             <img className="headshot" src={this.props.headshot_url} alt={`${this.props.name_first}`}  />
             {this.props.children}
           </div>
+    )
+    if (!this.props.display) return null;
+    if (this.props.active) {
+      return (
+        <div className={classes['act-tile-root']}>
+          {content}
+        </div>
+      ) 
+    }
+    return (
+      <div className={classes['act-tile-root']}>
+        <Link to={`/datelist/${this.props.id}`} onClick={() => this.props.handleClick(this.props.id)}>
+          {content}
         </Link>
       </div>
     );
