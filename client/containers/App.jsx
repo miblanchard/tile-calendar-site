@@ -8,6 +8,7 @@ import shortId from 'shortid';
 import PropTypes from 'prop-types';
 import ajaxErrorHandler from '../utils/ajaxErrorHandler';
 import shuffle from '../utils/shuffle';
+import months from '../utils/maps/months';
 import ActTile from '../components/ActTile';
 import DateList from '../components/DateList';
 import Searchbar from '../components/Searchbar';
@@ -58,6 +59,7 @@ class App extends Component {
       actTileUi: {},
       searchText: '',
       redirectHome: false,
+      datesTable: {},
       actKeysReordered: []
     };
 
@@ -66,7 +68,6 @@ class App extends Component {
     this.setWrapperRef = this.setWrapperRef.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
     this.handleSearchChange = this.handleSearchChange.bind(this);
-    this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -75,18 +76,52 @@ class App extends Component {
       cancelToken: this.source.token
     }).then((result) => {
       this.setState((() => {
-        let actTileUi = {};
         const actMap = [];
         const acts = Object.keys(result.data.acts);
+        let actTileUi = {};
+        let datesTable = {};
         acts.forEach((act) => {
+          const actDatesTable = {};
           actTileUi = Object.assign(actTileUi, { [result.data.acts[act].id]: { active: false, display: true } });
           actMap.push([result.data.acts[act].id, `${act}`]);
+
+          /*
+            this datesTable codeblock needs to be moved to the server once mvp is reached 
+          */
+          result.data.acts[act].dates.sort(((a, b) => (
+            new Date(a.date) - new Date(b.date)
+          )));
+          let dateCounter = new Date('January 1, 1970, 00:00:00');
+          for (let i = 0; i < result.data.acts[act].dates.length; i++) {
+            const date = new Date(result.data.acts[act].dates[i].date);
+            // set initial date
+            if (i === 0) {
+              dateCounter = new Date(`${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}, 04:00:00`);
+              actDatesTable[`${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`] = [];
+            }
+            // account for date change at midnight
+            if ((date.getTime() / 1000 / 60 / 60) - (dateCounter.getTime() / 1000 / 60 / 60) >= 24) {
+              // start time for new day is 4am to catch late night shows
+              dateCounter = new Date(`${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}, 04:00:00`);
+              actDatesTable[`${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`] = [];
+              actDatesTable[`${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`] = actDatesTable[`${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`].concat(result.data.acts[act].dates[i]);
+            } else if ((date.getTime() / 1000 / 60 / 60) - (dateCounter.getTime() / 1000 / 60 / 60) >= 20) {
+              actDatesTable[`${months[date.getMonth()]} ${date.getDate() - 1}, ${date.getFullYear()}`] = actDatesTable[`${months[date.getMonth()]} ${date.getDate() - 1}, ${date.getFullYear()}`].concat(result.data.acts[act].dates[i]);
+            } else {
+              actDatesTable[`${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`] = actDatesTable[`${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`].concat(result.data.acts[act].dates[i]);
+            }
+          }
+
+          datesTable = Object.assign(datesTable, { [result.data.acts[act].id]: actDatesTable });
         });
+        
+
         return {
           cachedData: result.data,
           actMap,
           actTileUi,
-          actKeysReordered: shuffle(Object.keys(result.data.acts))
+          actKeysReordered: shuffle(Object.keys(result.data.acts)),
+          datesTable
         };
       }));
     }).catch(ajaxErrorHandler);
@@ -129,10 +164,6 @@ class App extends Component {
         redirectHome: true
       }));
     }
-  }
-
-  handleSearchSubmit() {
-
   }
 
   handleSearchChange(e) {
@@ -215,7 +246,7 @@ class App extends Component {
                     <DateList
                       {...props}
                       id={act.id}
-                      dates={act.dates}
+                      dates={this.state.datesTable[act.id]}
                       name_first={act.name_first}
                       name_last={act.name_last}
                     />
@@ -242,7 +273,6 @@ class App extends Component {
         <Searchbar
           value={this.state.searchText}
           handleChange={this.handleSearchChange}
-          handleSubmit={this.handleSearchSubmit}
         />
         <div className={classes.wrapper}>
           {actsArr}

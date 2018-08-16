@@ -4,7 +4,9 @@ import classNames from 'classnames';
 import shortId from 'shortid';
 import PropTypes from 'prop-types';
 import DateListItem from './DateListItem';
+import DateListDay from './DateListDay';
 import getTime from '../utils/getTime'; // refactor aliases for ssr
+import clubs from '../utils/maps/clubs';
 
 const styles = {
   'datelist-root': {
@@ -47,32 +49,27 @@ const styles = {
 };
 
 const DateList = (props) => {
-  console.log('location', props.location)
-  // this is meant to be a placeholder while formatting, obv need to refactor this later
-  const clubsTemp = [
-    null,
-    'Comedy Cellar',
-    'Village Underground',
-    'Fat Black Pussycat'
-  ];
-
   const { classes, dates } = props;
+  const datesKeys = Object.keys(dates);
+  const datesArr = [];
 
-  const datesArr = dates.map((date, i) => {
-    const dateTime = new Date(date.date);
-    const showTime = getTime(dateTime);
-
-    return (
-      <DateListItem
-        key={shortId.generate()}
-        dateTime={date.date}
-        link={date.link}
-        showTime={showTime}
-        venue={clubsTemp[date.venueid]}
-        index={i}
-      />
-    );
-  });
+  for (let i = 0; i < datesKeys.length; i++) {
+    datesArr.push(<DateListDay key={datesKeys[i]} dateTime={datesKeys[i]} />);
+    for (let j = 0; j < dates[datesKeys[i]].length; j++) {
+      const time = new Date(dates[datesKeys[i]][j].date);
+      const showTime = getTime(time);
+      datesArr.push(
+        <DateListItem
+          key={dates[datesKeys[i]][j].date}
+          dateTime={dates[datesKeys[i]][j].date}
+          link={dates[datesKeys[i]][j].link}
+          showTime={showTime}
+          venue={clubs[dates[datesKeys[i]][j].venueid]}
+          index={j}
+        />
+      );
+    }
+  }
 
   return (
     <div className={classes['datelist-root']}>
