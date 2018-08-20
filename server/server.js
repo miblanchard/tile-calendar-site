@@ -39,8 +39,8 @@ app.get('/*', (req, res) => {
     </JssProvider>
   ); //eslint-disable-line
 
-  console.log('context', context)
-  console.log('req.url', req.url)
+  // console.log('context', context)
+  // console.log('req.url', req.url)
 
   if (context.url) {
     res.writeHead(301, {

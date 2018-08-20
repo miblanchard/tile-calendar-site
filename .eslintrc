@@ -22,6 +22,7 @@
     "no-plusplus": "off",
     "no-unused-vars": ["error", { "args": "none" }],
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/no-children-prop": "off",
     "import/no-extraneous-dependencies": ["error", {"devDependencies": true}]
   },
   "overrides": [

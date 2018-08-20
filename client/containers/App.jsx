@@ -1,5 +1,5 @@
 import path from 'path';
-import React, { Component, StrictMode } from 'react';
+import React, { Component, StrictMode, Fragment } from 'react';
 import { findDOMNode } from 'react-dom';
 import { Route, Switch, Redirect } from 'react-router';
 import injectSheet from 'react-jss';
@@ -60,17 +60,27 @@ class App extends Component {
       searchText: '',
       redirectHome: false,
       datesTable: {},
-      actKeysReordered: []
+      actKeysReordered: [],
+      endIndex: 10
     };
 
     this.source = axios.CancelToken.source();
     this.handleTileClick = this.handleTileClick.bind(this);
-    this.setWrapperRef = this.setWrapperRef.bind(this);
-    this.handleClickOutside = this.handleClickOutside.bind(this);
+    this.wrapperRef = React.createRef();
     this.handleSearchChange = this.handleSearchChange.bind(this);
+    this.trackScrolling = this.trackScrolling.bind(this);
+    this.setTileRef = (node) => {
+      if (node) {
+        const { id } = node.props;
+        const key = `tileRef${id}`;
+        this[key] = node;
+        this[`${key}HandleClickOutside`] = this.nhco(id).bind(this);
+      }
+    };
   }
 
   componentDidMount() {
+    document.addEventListener('scroll', this.trackScrolling);
     // initial data fetch
     axios.get(path.resolve(__dirname, 'data/data.json'), {
       cancelToken: this.source.token
@@ -114,7 +124,6 @@ class App extends Component {
 
           datesTable = Object.assign(datesTable, { [result.data.acts[act].id]: actDatesTable });
         });
-        
 
         return {
           cachedData: result.data,
@@ -136,34 +145,51 @@ class App extends Component {
   }
 
   componentWillUnmount() {
-    // document.removeEventListener('click', this.handleClickOutside); // update this
+    for (let i = 0; i < actMap.length; i++) {
+      const func = `tileRef${i}HandleClickOutside`
+      document.removeEventListener('click', this[func]);
+    }
+    document.removeEventListener('scroll', this.trackScrolling);
     // cancels any pending network request from axios
     this.source.cancel();
   }
 
-  setWrapperRef(node, id) {
-    const key = `wrapperRef${id}`;
-    this[key] = node;
+  trackScrolling() {
+    function isBottom(el) {
+      return el.getBoundingClientRect().bottom <= window.innerHeight;
+    }
+
+    const wrappedElement = this.wrapperRef.current;
+    if (isBottom(wrappedElement)) {
+      console.log('header bottom reached');
+      document.removeEventListener('scroll', this.trackScrolling);
+      this.setState(prevState => ({
+        endIndex: prevState.endIndex + 10
+      }));
+      document.addEventListener('scroll', this.trackScrolling);
+    }
   }
 
-  handleClickOutside(e, id) {
-    const key = `wrapperRef${id}`;
-    const node = findDOMNode(this[key]);
-    console.log('event', e)
-    console.log('key', key)
-    console.log('this[key]', node)
-    // console.log('this[key].contains(e.target)', node.contains(e.target));
-    console.log('e.target', e.target)
-    if (node && !node.contains(e.target)) {
-      this.setState(prevState => ({
-        actTileUi: Object.assign(
-          {},
-          prevState.actTileUi,
-          { [id]: { ...prevState.actTileUi[id], active: false } }
-        ),
-        redirectHome: true
-      }));
-    }
+  nhco(id) {
+    return (e) => {
+      const key = `tileRef${id}`;
+      const node = findDOMNode(this[key]);
+      if (node && !node.contains(e.target)) {
+        let redirectHome = false;
+        if (this.wrapperRef.current.contains(e.target)) {
+          redirectHome = true;
+        }
+        this.setState(prevState => ({
+          actTileUi: Object.assign(
+            {},
+            prevState.actTileUi,
+            { [id]: { ...prevState.actTileUi[id], active: false } }
+          ),
+          redirectHome
+        }));
+        document.removeEventListener('click', this[`${key}HandleClickOutside`]);
+      }
+    };
   }
 
   handleSearchChange(e) {
@@ -199,14 +225,14 @@ class App extends Component {
       return {
         searchText: currentTarget.value,
         actTileUi
-      }
+      };
     });
   }
 
   handleTileClick(id) {
     if (!this.state.actTileUi[id].active) {
-      console.log('handleTileClick')
-      document.addEventListener('click', e => this.handleClickOutside(e, id), { once: true });
+      const func = `tileRef${id}HandleClickOutside`;
+      document.addEventListener('click', this[func]);
       this.setState(prevState => ({
         actTileUi: Object.assign(
           {},
@@ -218,55 +244,50 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state)
     const { classes } = this.props;
     if (this.state.redirectHome) return <Redirect to="/" />;
+    const actsArr = [];
 
-    const buildTiles = () => {
-      const result = [];
-      if (this.state.cachedData && this.state.cachedData.acts) {
-        for (let i = 0; i < this.state.actKeysReordered.length; i++) {
-          const act = this.state.cachedData.acts[this.state.actKeysReordered[i]];
-          result.push(
-            <ActTile
-              key={act.id}
-              ref={node => this.setWrapperRef(node, act.id)}
-              id={act.id}
-              active={this.state.actTileUi[act.id].active}
-              display={this.state.actTileUi[act.id].display}
-              name_first={act.name_first}
-              name_last={act.name_last}
-              headshot_url={act.headshot_url}
-              handleClick={this.handleTileClick}
-            >
-              <Switch>
-                <Route
-                  path={`/datelist/${act.id}`}
-                  render={props => (
-                    <DateList
-                      {...props}
-                      id={act.id}
-                      dates={this.state.datesTable[act.id]}
-                      name_first={act.name_first}
-                      name_last={act.name_last}
-                    />
-                  )}
-                />
-                <Route
-                  path="/"
-                  render={() => (
-                    <h3 className="act-name">{`${act.name_first} ${act.name_last}`}</h3>
-                )}
-                />
-              </Switch>
-            </ActTile>
-          );
-        }
+    if (this.state.cachedData && this.state.cachedData.acts) {
+      const lastIndex = this.state.endIndex < this.state.actKeysReordered.length ? this.state.endIndex : this.state.actKeysReordered.length;
+      for (let i = 0; i < lastIndex; i++) {
+        const act = this.state.cachedData.acts[this.state.actKeysReordered[i]];
+        actsArr.push(
+          <ActTile
+            key={act.id}
+            ref={this.setTileRef}
+            id={act.id}
+            active={this.state.actTileUi[act.id].active}
+            display={this.state.actTileUi[act.id].display}
+            name_first={act.name_first}
+            name_last={act.name_last}
+            headshot_url={act.headshot_url}
+            handleClick={this.handleTileClick}
+          >
+            <Route
+              path="/datelist/:id"
+              children={({ match }) => {
+                const id = match && parseInt(match.params.id);
+                return (
+                  <Fragment key={shortId.generate()}>
+                    {id === act.id ?
+                      <DateList
+                        id={act.id}
+                        dates={this.state.datesTable[act.id]}
+                        name_first={act.name_first}
+                        name_last={act.name_last ? act.name_last : ''}
+                      /> :
+                        <h3 className="act-name">
+                          {`${act.name_first} ${act.name_last ? act.name_last : ''}`}
+                        </h3>
+                    }
+                  </Fragment>
+                );
+              }}
+            />
+          </ActTile>);
       }
-      return result;
-    };
-
-    const actsArr = buildTiles();
+    }
 
     return (
       <div>
@@ -274,7 +295,7 @@ class App extends Component {
           value={this.state.searchText}
           handleChange={this.handleSearchChange}
         />
-        <div className={classes.wrapper}>
+        <div className={classes.wrapper} ref={this.wrapperRef}>
           {actsArr}
         </div>
       </div>

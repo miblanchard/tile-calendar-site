@@ -54,13 +54,13 @@ const DateList = (props) => {
   const datesArr = [];
 
   for (let i = 0; i < datesKeys.length; i++) {
-    datesArr.push(<DateListDay key={datesKeys[i]} dateTime={datesKeys[i]} />);
+    datesArr.push(<DateListDay key={shortId.generate()} dateTime={datesKeys[i]} />);
     for (let j = 0; j < dates[datesKeys[i]].length; j++) {
       const time = new Date(dates[datesKeys[i]][j].date);
       const showTime = getTime(time);
       datesArr.push(
         <DateListItem
-          key={dates[datesKeys[i]][j].date}
+          key={shortId.generate()}
           dateTime={dates[datesKeys[i]][j].date}
           link={dates[datesKeys[i]][j].link}
           showTime={showTime}

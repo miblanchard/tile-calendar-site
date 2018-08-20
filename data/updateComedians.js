@@ -1,5 +1,5 @@
 const fs = require('fs');
-const data = require('./data.dummy.json');
+const data = require('./data.json');
 const cellar = require('./cellar_village_fat.json');
 
 const comedians = Object.keys(cellar);
@@ -32,19 +32,17 @@ for (let i = 0; i < existingActsUpdated.length; i++) {
   const nameArr = existingActsUpdated[i].split(' ');
   if (!data.acts[existingActsUpdated[i]].name_first) {
     const firstName = nameArr[0];
-    // console.log(firstName);
     data.acts[existingActsUpdated[i]].name_first = firstName.slice(0, 1).toUpperCase() + firstName.slice(1);
   }
   if (nameArr.length > 1 && !data.acts[existingActsUpdated[i]].name_last) {
     const lastName = nameArr[nameArr.length - 1];
-    // console.log(lastName);
     data.acts[existingActsUpdated[i]].name_last = lastName.slice(0, 1).toUpperCase() + lastName.slice(1);
   }
 }
 
 const now = new Date();
 
-fs.writeFileSync('data1.json', JSON.stringify(data));
+fs.writeFileSync('data.json', JSON.stringify(data));
 fs.writeFileSync(`./addedLogs/${now}.json`, JSON.stringify(added));
 fs.writeFileSync(`./needsUpdated/${now}.json`, JSON.stringify(needsUpdated));
 

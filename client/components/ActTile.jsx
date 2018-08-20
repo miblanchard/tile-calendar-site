@@ -1,28 +1,28 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
 import classNames from 'classnames';
 import injectSheet from 'react-jss';
 
 const styles = theme => ({
   'act-tile-root': {
-    'min-width': '320px',
-    width: '320px',
+    'min-width': '280px',
+    width: '280px',
     height: 'auto',
     'margin-bottom': '1rem',
     'border-radius': '0.2rem',
+    overflow: 'hidden'
   },
   overlay: {
     height: '426px',
+    'background-color': 'black',
     position: 'relative',
     display: 'flex',
     'align-items': 'center',
     'justify-content': 'center',
     '& .headshot': {
       position: 'absolute',
-      width: '100%',
       height: '100%',
     },
-    padding: '20px',
     '& .act-name': {
       'text-shadow': [
         ['1px', '1px', '#000'],
@@ -53,7 +53,7 @@ const styles = theme => ({
   },
 });
 
-class ActTile extends Component {
+class ActTile extends PureComponent {
   constructor(props) {
     super(props);
   }
@@ -62,21 +62,20 @@ class ActTile extends Component {
   render() {
     const { classes } = this.props;
     const content = (
-          <div
-            // className={classNames(classes.overlay, classes.overlayInactive)}
-            className={classNames(classes.overlay, {
-              [classes.overlayInactive]: !this.props.active
-            })}
-            >
-            <div
-              className={classNames({
-                [classes.overlayActive]: this.props.active,
-              })}
-              />
-            <img className="headshot" src={this.props.headshot_url} alt={`${this.props.name_first}`}  />
-            {this.props.children}
-          </div>
-    )
+      <div
+        className={classNames(classes.overlay, {
+          [classes.overlayInactive]: !this.props.active
+        })}
+      >
+        <div
+          className={classNames({
+            [classes.overlayActive]: this.props.active,
+          })}
+        />
+        <img className="headshot" src={this.props.headshot_url} alt={`${this.props.name_first}`} onError={(e) => { e.target.src = '../../assets/mic.png'; }} />
+        {this.props.children}
+      </div>
+    );
     if (!this.props.display) return null;
     if (this.props.active) {
       return (

@@ -25,6 +25,15 @@ module.exports = {
           'babel-loader',
         ]
       },
+      {
+        test: /\.png$/,
+        include: [
+          path.resolve(__dirname, '../', 'assets')
+        ],
+        use: [
+          'file-loader',
+        ]
+      }
     ],
   },
   plugins: [
