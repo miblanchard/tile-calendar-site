@@ -1,5 +1,5 @@
-require('babel-register')({
-  presets: ['env'],
-});
+// require('babel-register')({
+//   presets: ['env'],
+// });
 
-require('./server/server');
+// require('./server/server');

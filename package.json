@@ -1,12 +1,13 @@
 {
   "name": "nyc_comedy_calendar",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "author": "Max Latoche",
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "nodemon server/server.js --exec babel-node --presets env",
+    "start": "nodemon src/server/server.js --exec babel-node --presets env",
+    "start:ssr": "webpack -w --config webpack/webpack.ssr.js & nodemon server.js",
     "build": "webpack -p --config webpack/webpack.prod.js --profile --json > stats.json",
     "build:dev": "webpack --watch --progress --config webpack/webpack.dev.js",
     "analyze": "webpack-bundle-analyzer stats.json",
@@ -16,6 +17,7 @@
     "axios": "^0.18.0",
     "bcrypt": "^3.0.0",
     "classnames": "^2.2.6",
+    "cors": "^2.8.4",
     "express": "^4.16.3",
     "graphql-yoga": "^1.14.12",
     "jsonwebtoken": "^8.3.0",
@@ -28,6 +30,7 @@
     "react-router-dom": "^4.3.1",
     "redux": "^4.0.0",
     "reselect": "^3.0.1",
+    "serialize-javascript": "^1.5.0",
     "shortid": "^2.2.12"
   },
   "devDependencies": {
@@ -67,6 +70,7 @@
     "webpack-bundle-analyzer": "^2.13.1",
     "webpack-cli": "^2.0.15",
     "webpack-dev-server": "^3.1.4",
-    "webpack-merge": "^4.1.3"
+    "webpack-merge": "^4.1.3",
+    "webpack-node-externals": "^1.7.2"
   }
 }

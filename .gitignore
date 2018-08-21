@@ -1,6 +1,6 @@
 node_modules
 yarn-error.log
-build
+src/build
 stats.json
 config
 lint_result.txt
