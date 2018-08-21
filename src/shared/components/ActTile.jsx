@@ -72,7 +72,7 @@ class ActTile extends PureComponent {
             [classes.overlayActive]: this.props.active,
           })}
         />
-        <img className="headshot" src={this.props.headshot_url} alt={`${this.props.name_first}`} onError={(e) => { e.target.src = '../../assets/mic.png'; }} />
+        <img className="headshot" src={this.props.headshot_url} alt={`${this.props.name_first}`} />
         {this.props.children}
       </div>
     );

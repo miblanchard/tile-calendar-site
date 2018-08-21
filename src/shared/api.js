@@ -6,7 +6,7 @@ import shuffle from './utils/shuffle';
 import ajaxErrorHandler from './utils/ajaxErrorHandler';
 
 // eslint-disable-next-line
-export function fetchCachedData() {
+export function fetchInitialData() {
 
   return axios.get('http://localhost:8080/')
     .then((result) => {

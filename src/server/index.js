@@ -3,7 +3,7 @@ import cors from 'cors';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import serialize from 'serialize-javascript';
-import { StaticRouter } from 'react-router';
+import { StaticRouter, matchPath } from 'react-router';
 import {
   SheetsRegistry,
   createGenerateClassName,
@@ -12,7 +12,7 @@ import {
 } from 'react-jss/lib';
 import App from '../shared/App';
 import renderFullPage from './renderFullPage';
-import { fetchCachedData } from '../shared/api';
+import { fetchInitialData } from '../shared/api';
 
 const app = express();
 
@@ -31,7 +31,7 @@ app.get('/', (req, res, next) => {
   const css = sheetsRegistry.toString();
   const context = {};
 
-  fetchCachedData()
+  fetchInitialData()
     .then((data) => {
       const jsx = (
         <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>
@@ -53,6 +53,10 @@ app.get('/', (req, res, next) => {
         res.end(renderFullPage(renderToString(jsx), serialize(data), css));
       }
     }); // add catch to this
+});
+
+app.get('/*', (req, res, next) => {
+  res.redirect(308, '/');
 });
 
 app.listen(3000, () => {

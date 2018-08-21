@@ -6,9 +6,9 @@ const app = express();
 app.use(express.static('./data'));
 
 app.get('/', (req, res) => {
-  console.log('hostJSON', req)
+  console.log('JSON Requested');
   res.send(data);
-})
+});
 
 app.listen(8080, () => {
   console.log('Server is listening on port: 8080');

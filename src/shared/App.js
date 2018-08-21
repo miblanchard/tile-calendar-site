@@ -67,15 +67,14 @@ class App extends Component {
         const { id } = node.props;
         const key = `tileRef${id}`;
         this[key] = node;
-        this[`${key}HandleClickOutside`] = this.nhco(id).bind(this);
+        this[`${key}HandleClickOutside`] = this.handleClickOutside(id).bind(this);
       }
     };
   }
 
   componentDidMount() {
     document.addEventListener('scroll', this.trackScrolling);
-    console.log('mountdata', this.props.data)
-    this.setState(this.props.data)
+    this.setState(this.props.data);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -101,7 +100,6 @@ class App extends Component {
 
     const wrappedElement = this.wrapperRef.current;
     if (isBottom(wrappedElement)) {
-      console.log('header bottom reached');
       document.removeEventListener('scroll', this.trackScrolling);
       this.setState(prevState => ({
         endIndex: prevState.endIndex + 10
@@ -109,12 +107,14 @@ class App extends Component {
       document.addEventListener('scroll', this.trackScrolling);
     }
   }
-
-  nhco(id) {
+  
+  handleClickOutside(id) {
     return (e) => {
+      console.log('hco', id, e)
       const key = `tileRef${id}`;
       const node = findDOMNode(this[key]);
       if (node && !node.contains(e.target)) {
+        document.removeEventListener('click', this[`${key}HandleClickOutside`]);
         let redirectHome = false;
         if (this.wrapperRef.current.contains(e.target)) {
           redirectHome = true;
@@ -127,7 +127,6 @@ class App extends Component {
           ),
           redirectHome
         }));
-        document.removeEventListener('click', this[`${key}HandleClickOutside`]);
       }
     };
   }
@@ -170,6 +169,7 @@ class App extends Component {
   }
 
   handleTileClick(id) {
+    console.log('active state', this.state.actTileUi[id].active)
     if (!this.state.actTileUi[id].active) {
       const func = `tileRef${id}HandleClickOutside`;
       document.addEventListener('click', this[func]);
@@ -184,7 +184,7 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state);
+    console.log('this', this)
     const { classes } = this.props;
     if (this.state.redirectHome) return <Redirect to="/" />;
     const actsArr = [];
