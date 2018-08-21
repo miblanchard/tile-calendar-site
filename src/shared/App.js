@@ -1,4 +1,4 @@
-import React, { Component, StrictMode, Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import { findDOMNode } from 'react-dom';
 import { Route, Redirect } from 'react-router';
 import injectSheet from 'react-jss';
@@ -55,6 +55,7 @@ class App extends Component {
       redirectHome: false,
       datesTable: {},
       actKeysReordered: [],
+      searching: false,
       endIndex: 10
     };
 
@@ -99,10 +100,10 @@ class App extends Component {
     }
 
     const wrappedElement = this.wrapperRef.current;
-    if (isBottom(wrappedElement)) {
+    if (isBottom(wrappedElement) && !this.state.searching) {
       document.removeEventListener('scroll', this.trackScrolling);
       this.setState(prevState => ({
-        endIndex: prevState.endIndex + 10
+        endIndex: prevState.endIndex + 10 < this.state.actKeysReordered.length ? prevState.endIndex + 10 : this.state.actKeysReordered.length
       }));
       document.addEventListener('scroll', this.trackScrolling);
     }
@@ -110,7 +111,6 @@ class App extends Component {
   
   handleClickOutside(id) {
     return (e) => {
-      console.log('hco', id, e)
       const key = `tileRef${id}`;
       const node = findDOMNode(this[key]);
       if (node && !node.contains(e.target)) {
@@ -135,6 +135,10 @@ class App extends Component {
     const { currentTarget } = e;
     const matches = [];
     const notMatches = [];
+    let searching = true;
+    if (currentTarget.value === '') {
+      searching = false;
+    }
     this.state.actMap.forEach((act) => {
       if (act[1].toLowerCase().includes(currentTarget.value.toLowerCase())) {
         matches.push(act);
@@ -163,13 +167,13 @@ class App extends Component {
       });
       return {
         searchText: currentTarget.value,
-        actTileUi
+        actTileUi,
+        searching
       };
     });
   }
 
   handleTileClick(id) {
-    console.log('active state', this.state.actTileUi[id].active)
     if (!this.state.actTileUi[id].active) {
       const func = `tileRef${id}HandleClickOutside`;
       document.addEventListener('click', this[func]);
@@ -184,13 +188,13 @@ class App extends Component {
   }
 
   render() {
-    console.log('this', this)
     const { classes } = this.props;
     if (this.state.redirectHome) return <Redirect to="/" />;
     const actsArr = [];
 
     if (this.state.cachedData && this.state.cachedData.acts) {
-      const lastIndex = this.state.endIndex < this.state.actKeysReordered.length ? this.state.endIndex : this.state.actKeysReordered.length;
+      let lastIndex = !this.state.searching && this.state.endIndex;
+      lastIndex = lastIndex || this.state.actKeysReordered.length;
       for (let i = 0; i < lastIndex; i++) {
         const act = this.state.cachedData.acts[this.state.actKeysReordered[i]];
         actsArr.push(
@@ -239,7 +243,7 @@ class App extends Component {
           {actsArr}
         </div>
       </div>
-    )
+    );
   }
 }
 
