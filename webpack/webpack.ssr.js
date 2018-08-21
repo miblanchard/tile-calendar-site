@@ -56,6 +56,7 @@ const browserConfig = {
 };
 
 const serverConfig = {
+  mode: 'development',
   entry: './src/server/index.js',
   target: 'node',
   externals: [nodeExternals()],
@@ -64,9 +65,19 @@ const serverConfig = {
     filename: 'server.js',
     publicPath: '/'
   },
+  resolve: {
+    extensions: ['.jsx', '.js'],
+  },
   module: {
     rules: [
-      { test: /\.(js)$/, use: 'babel-loader' }
+      {
+        test: /\.jsx?$/,
+        use: 'babel-loader',
+        include: [
+          path.resolve(__dirname, '..', 'src', 'server'),
+          path.resolve(__dirname, '..', 'src', 'shared')
+        ],
+      }
     ]
   },
   plugins: [
@@ -76,4 +87,4 @@ const serverConfig = {
   ]
 };
 
-module.exports = [browserConfig, serverConfig]
+module.exports = [browserConfig, serverConfig];
