@@ -27,6 +27,9 @@ const styles = theme => ({
 class ActTile extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     if (this.props.active === nextProps.active) {
+      if (this.props.display !== nextProps.display) {
+        return true;
+      }
       return false;
     }
     return true;
