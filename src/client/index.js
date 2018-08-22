@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { ThemeProvider } from 'react-jss';
 import { BrowserRouter } from 'react-router-dom';
-import App from './containers/App';
+import App from '../shared/App';
 
 class Main extends React.Component {
   // Remove the server-side injected CSS.
@@ -16,7 +16,7 @@ class Main extends React.Component {
   render() {
     return (
       <BrowserRouter>
-        <App />
+        <App data={window.__INITIAL_DATA__} />
       </BrowserRouter>
     )
   }
