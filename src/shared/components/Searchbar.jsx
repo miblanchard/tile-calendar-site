@@ -1,24 +1,11 @@
 import React from 'react';
 import injectSheet from 'react-jss';
+import PropTypes from 'prop-types';
+import { textInput, inputButton } from '../styles/styles';
 
 const styles = {
-  'text-input': {
-    padding: '0.3rem 0.5rem',
-    background: 'rgba(50, 50, 50, 0.2)',
-    border: '0px solid #dbdbdb',
-  },
-  'input-button': {
-    position: 'relative',
-    padding: '0.25rem 0.5rem',
-    margin: '1rem 0 0 1rem',
-    border: '2px solid #16568d',
-    'background-color': '#16568d',
-    color: '#fafafa',
-    '&:hover': {
-      'background-color': '#fafafa',
-      color: '#16568d',
-    }
-  }
+  'text-input': textInput,
+  'input-button': inputButton
 };
 
 const Searchbar = (props) => {
@@ -29,6 +16,15 @@ const Searchbar = (props) => {
       <input className={classes['text-input']} type="text" value={props.value} onChange={props.handleChange} />
     </label>
   );
+};
+
+Searchbar.propTypes = {
+  value: PropTypes.string.isRequired,
+  handleChange: PropTypes.func.isRequired,
+
+  // jss
+  // eslint-disable-next-line
+  classes: PropTypes.object.isRequired,
 };
 
 export default injectSheet(styles)(Searchbar);

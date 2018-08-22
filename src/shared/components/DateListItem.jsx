@@ -1,33 +1,16 @@
 import React from 'react';
 import injectSheet from 'react-jss';
 import PropTypes from 'prop-types';
+import { dateListItem, venue, time } from '../styles/styles';
 
 const styles = {
-  'date-list-item': {
-    'border-top': '1px solid #f9f9f9',
-    // padding: '0.2rem',
-    position: 'relative',
-    'font-size': '0.75rem',
-    color: '#f9f9f9'
-  },
-  venue: {
-    width: '75%',
-    'margin-top': '1rem',
-    display: 'inline-block',
-    'padding-left': '0.5rem'
-  },
-  time: {
-    width: '25%',
-    position: 'absolute',
-    display: 'inline-block',
-    left: '75%',
-    'text-align': 'right',
-    'padding-right': '0.5rem',
-    margin: '1rem auto',
-    'box-sizing': 'border-box'
-  }
+  'date-list-item': dateListItem,
+  venue,
+  time
 };
 
+
+// clickable link that displays 1 gig
 const DateListItem = (props) => {
   const rowStyle = props.index % 2 ? { backgroundColor: 'rgba(255, 255, 255, 0.15)' } : { backgroundColor: 'none' };
   return (
@@ -44,13 +27,16 @@ const DateListItem = (props) => {
   );
 };
 
-// DateListItem.propTypes = {
-//   // itemStyle: PropTypes.shape({
-//   //   display: PropTypes.string.isRequired
-//   // }).isRequired,
-//   dateTime: PropTypes.string.isRequired,
-//   showTime: PropTypes.string.isRequired,
-//   venue: PropTypes.string.isRequired
-// };
+DateListItem.propTypes = {
+  index: PropTypes.number.isRequired,
+  link: PropTypes.string.isRequired,
+  dateTime: PropTypes.string.isRequired,
+  showTime: PropTypes.string.isRequired,
+  venue: PropTypes.string.isRequired,
+
+  // jss
+  // eslint-disable-next-line
+  classes: PropTypes.object.isRequired,
+};
 
 export default injectSheet(styles)(DateListItem);

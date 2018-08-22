@@ -7,43 +7,28 @@ import PropTypes from 'prop-types';
 import ActTile from './components/ActTile';
 import DateList from './components/DateList';
 import Searchbar from './components/Searchbar';
+import { globalStyles, wrapper } from './styles/styles';
 
 const styles = theme => ({
-  '@global': {
-    body: {
-      font: '100% Helvetica, sans-serif',
-      backgroundColor: '#fffff4',
-    },
-    a: {
-      'text-decoration': 'none',
-    },
-    ul: {
-      'list-style': 'none'
-    }
-  },
-  wrapper: {
-    display: 'flex',
-    flexFlow: 'row wrap',
-    height: '100%',
-    justifyContent: 'space-around',
-    overflow: 'hidden',
-    margin: 0
-  },
-  'act-name': {
-    'text-shadow': [
-      ['1px', '1px', '#000'],
-      ['-1px', '-1px', '#000'],
-      ['-1px', '1px', '#000'],
-      ['1px', '-1px', '#000']
-    ],
-    // position: 'absolute',
-    color: '#f9f9f9',
-    padding: '0.25rem 1rem',
-    margin: 'auto',
-  }
+  '@global': globalStyles,
+  wrapper,
 });
 
+
 class App extends Component {
+  static getDerivedStateFromProps(props, state) {
+    if (props.data.cachedData !== state.cachedData) {
+      return {
+        cachedData: props.data.cachedData,
+        actMap: props.data.actMap,
+        actTileUi: props.data.actTileUi,
+        datesTable: props.data.datesTable,
+        actKeysReordered: props.data.actKeysReordered,
+      };
+    }
+    return null;
+  }
+
   constructor(props) {
     super(props);
 
@@ -51,10 +36,10 @@ class App extends Component {
       cachedData: null,
       actMap: [],
       actTileUi: {},
-      searchText: '',
-      redirectHome: false,
       datesTable: {},
       actKeysReordered: [],
+      searchText: '',
+      redirectHome: false,
       searching: false,
       endIndex: 10
     };
@@ -75,20 +60,19 @@ class App extends Component {
 
   componentDidMount() {
     document.addEventListener('scroll', this.trackScrolling);
-    this.setState(this.props.data);
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.redirectHome) {
-      this.setState({
+      this.setState({ // eslint-disable-line
         redirectHome: false
       });
     }
   }
 
   componentWillUnmount() {
-    for (let i = 0; i < actMap.length; i++) {
-      const func = `tileRef${i}HandleClickOutside`
+    for (let i = 0; i < this.state.actMap.length; i++) {
+      const func = `tileRef${i}HandleClickOutside`;
       document.removeEventListener('click', this[func]);
     }
     document.removeEventListener('scroll', this.trackScrolling);
@@ -103,16 +87,18 @@ class App extends Component {
     if (isBottom(wrappedElement) && !this.state.searching) {
       document.removeEventListener('scroll', this.trackScrolling);
       this.setState(prevState => ({
-        endIndex: prevState.endIndex + 10 < this.state.actKeysReordered.length ? prevState.endIndex + 10 : this.state.actKeysReordered.length
+        endIndex: prevState.endIndex + 10 < this.state.actKeysReordered.length
+          ? prevState.endIndex + 10
+          : this.state.actKeysReordered.length
       }));
       document.addEventListener('scroll', this.trackScrolling);
     }
   }
-  
+
   handleClickOutside(id) {
     return (e) => {
       const key = `tileRef${id}`;
-      const node = findDOMNode(this[key]);
+      const node = findDOMNode(this[key]); // eslint-disable-line
       if (node && !node.contains(e.target)) {
         document.removeEventListener('click', this[`${key}HandleClickOutside`]);
         let redirectHome = false;
@@ -197,7 +183,7 @@ class App extends Component {
       lastIndex = lastIndex || this.state.actKeysReordered.length;
       for (let i = 0; i < lastIndex; i++) {
         const act = this.state.cachedData.acts[this.state.actKeysReordered[i]];
-        actsArr.push(
+        actsArr.push( // eslint-disable-line
           <ActTile
             key={act.id}
             ref={this.setTileRef}
@@ -212,7 +198,7 @@ class App extends Component {
             <Route
               path="/datelist/:id"
               children={({ match }) => {
-                const id = match && parseInt(match.params.id);
+                const id = match && parseInt(match.params.id); // eslint-disable-line
                 return (
                   <Fragment key={shortId.generate()}>
                     {id === act.id ?
@@ -234,17 +220,25 @@ class App extends Component {
       }
     }
     return (
-      <div>
+      <div ref={this.wrapperRef}>
         <Searchbar
           value={this.state.searchText}
           handleChange={this.handleSearchChange}
         />
-        <div className={classes.wrapper} ref={this.wrapperRef}>
+        <div className={classes.wrapper}>
           {actsArr}
         </div>
       </div>
     );
   }
 }
+
+App.propTypes = {
+  // eslint-disable-next-line
+  data: PropTypes.object,
+  // jss
+  // eslint-disable-next-line
+  classes: PropTypes.object.isRequired,
+};
 
 export default injectSheet(styles)(App);

@@ -1,65 +1,40 @@
-import React, { PureComponent } from 'react';
-import { Link, Route, Switch } from 'react-router-dom';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
+import {
+  actTileRoot,
+  overlay,
+  overlayInactive,
+  overlayActive
+} from '../styles/styles';
 
 const styles = theme => ({
-  'act-tile-root': {
-    'min-width': '280px',
-    width: '280px',
-    height: 'auto',
-    'margin-bottom': '1rem',
-    'border-radius': '0.2rem',
-    overflow: 'hidden'
-  },
-  overlay: {
-    height: '426px',
-    'background-color': 'black',
-    position: 'relative',
-    display: 'flex',
-    'align-items': 'center',
-    'justify-content': 'center',
-    '& .headshot': {
-      position: 'absolute',
-      height: '100%',
-    },
-    '& .act-name': {
-      'text-shadow': [
-        ['1px', '1px', '#000'],
-        ['-1px', '-1px', '#000'],
-        ['-1px', '1px', '#000'],
-        ['1px', '-1px', '#000']
-      ],
-      position: 'absolute',
-      color: '#f9f9f9',
-      border: '1px solid #f9f9f9',
-      'border-radius': '0.2rem',
-      padding: '0.25rem 1rem',
-      margin: 'auto',
-    },
-  },
-  overlayInactive: {
-    opacity: 0.8,
-    '&:hover': {
-      opacity: 1
-    },
-  },
-  overlayActive: {
-    position: 'absolute',
-    background: 'rgba(0, 0, 0, 0.5)',
-    width: '100%',
-    height: '100%',
-    'z-index': 1
-  },
+  'act-tile-root': actTileRoot,
+  overlay,
+  overlayInactive,
+  overlayActive,
 });
 
-class ActTile extends PureComponent {
-  constructor(props) {
-    super(props);
+/*
+  ActTile components (as they're implement right now in App.jsx) will always render something
+  here we check to see if:
+    1. the component should be displayed
+    2. the component is 'active'
+      a. if the component is not active render it with a <Link> wrapper
+*/
+class ActTile extends Component {
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.props.active === nextProps.active) {
+      return false;
+    }
+    return true;
   }
 
-  
   render() {
+    if (!this.props.display) return null;
+
     const { classes } = this.props;
     const content = (
       <div
@@ -76,22 +51,40 @@ class ActTile extends PureComponent {
         {this.props.children}
       </div>
     );
-    if (!this.props.display) return null;
-    if (this.props.active) {
+    if (!this.props.active) {
       return (
         <div className={classes['act-tile-root']}>
-          {content}
+          <Link to={`/datelist/${this.props.id}`} onClick={() => this.props.handleClick(this.props.id)}>
+            {content}
+          </Link>
         </div>
-      ) 
+      );
     }
     return (
       <div className={classes['act-tile-root']}>
-        <Link to={`/datelist/${this.props.id}`} onClick={() => this.props.handleClick(this.props.id)}>
-          {content}
-        </Link>
+        {content}
       </div>
     );
   }
+}
+
+ActTile.defaultProps = {
+  headshot_url: 'https://images.vexels.com/media/users/3/140837/isolated/preview/cb26475f9b63061d472be050685600a7-microphone-with-stand-by-vexels.png',
+};
+
+ActTile.propTypes = {
+  active: PropTypes.bool.isRequired,
+  display: PropTypes.bool.isRequired,
+  id: PropTypes.number.isRequired,
+  handleClick: PropTypes.func.isRequired,
+  name_first: PropTypes.string.isRequired,
+  headshot_url: PropTypes.string,
+  // eslint-disable-next-line
+  children: PropTypes.object.isRequired,
+
+  // jss
+  // eslint-disable-next-line
+  classes: PropTypes.object.isRequired,
 };
 
 export default injectSheet(styles)(ActTile);

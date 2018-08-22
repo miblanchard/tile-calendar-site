@@ -1,43 +1,37 @@
 import React from 'react';
 import injectSheet from 'react-jss';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 import days from '../utils/maps/days';
 import months from '../utils/maps/months';
+import { dateListItem, dateListDay, day } from '../styles/styles';
 
 const styles = {
-  'date-list-item': {
-    'border-top': '1px solid #f9f9f9',
-    padding: '1em 2em',
-    position: 'relative',
-    'font-size': '0.8rem',
-    'font-weight': '700',
-    color: '#f9f9f9',
-    'background-color': 'black',
-    width: '100%',
-    display: 'flex',
-    'justify-content': 'center',
-    'box-sizing': 'border-box'
-  },
-  'date-list-day': {
-    margin: 'auto',
-  },
-  day: {
+  'date-list-item': dateListItem,
+  'date-list-day': dateListDay,
+  day
+};
 
-  }
-}
-
+// day seperator for a datelist
 const DateListDay = (props) => {
   const { classes } = props;
   const date = new Date(props.dateTime);
-  
+
   return (
-    <li className={classes['date-list-item']}
-    >
-      <p className={classes['date-list-day']}>
+    <li className={classNames(classes['date-list-item'], classes['date-list-day'])} >
+      <p className={classes.day}>
         {`${days[date.getDay()]}, ${months[date.getMonth()]} ${date.getDate()} ${date.getFullYear()}`}
       </p>
     </li>
   );
+};
+
+DateListDay.propTypes = {
+  dateTime: PropTypes.string.isRequired,
+
+  // jss
+  // eslint-disable-next-line
+  classes: PropTypes.object.isRequired,
 };
 
 export default injectSheet(styles)(DateListDay);

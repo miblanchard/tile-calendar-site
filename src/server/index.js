@@ -56,7 +56,7 @@ app.get('/', (req, res, next) => {
 });
 
 app.get('/*', (req, res, next) => {
-  res.redirect(308, '/');
+  res.redirect(301, '/');
 });
 
 app.listen(3000, () => {
