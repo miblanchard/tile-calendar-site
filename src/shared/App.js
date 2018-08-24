@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import ActTile from './components/ActTile';
 import DateList from './components/DateList';
 import Searchbar from './components/Searchbar';
+// import Banner from './components/Banner';
 import { globalStyles, wrapper } from './styles/styles';
 
 const styles = theme => ({
@@ -17,7 +18,7 @@ const styles = theme => ({
 
 class App extends Component {
   static getDerivedStateFromProps(props, state) {
-    if (props.data.cachedData !== state.cachedData) {
+    if (props.data && props.data.cachedData !== state.cachedData) {
       return {
         cachedData: props.data.cachedData,
         actMap: props.data.actMap,
@@ -192,7 +193,7 @@ class App extends Component {
             display={this.state.actTileUi[act.id].display}
             name_first={act.name_first}
             name_last={act.name_last}
-            headshot_url={act.headshot_url}
+            headshot_url={undefined}
             handleClick={this.handleTileClick}
           >
             <Route
@@ -221,10 +222,13 @@ class App extends Component {
     }
     return (
       <div ref={this.wrapperRef}>
-        <Searchbar
-          value={this.state.searchText}
-          handleChange={this.handleSearchChange}
-        />
+        <div id="banner">
+          <h1>NYC Comedy Calendar</h1>
+          <Searchbar
+            value={this.state.searchText}
+            handleChange={this.handleSearchChange}
+          />
+        </div>
         <div className={classes.wrapper}>
           {actsArr}
         </div>

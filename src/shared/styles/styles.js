@@ -36,9 +36,9 @@ module.exports = {
     'min-width': '280px',
     width: '280px',
     height: 'auto',
-    'margin-bottom': '1rem',
+    margin: '0 1.2rem 2rem',
     'border-radius': '0.2rem',
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
   actNameDateList: {
     'background-color': 'black',
