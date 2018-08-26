@@ -73,7 +73,7 @@ module.exports = {
     'border-top': '1px solid #f9f9f9',
     position: 'relative',
     'font-size': '0.75rem',
-    color: '#f9f9f9',
+    color: '#f9f9f9'
   },
   dateListRoot: {
     width: '100%',

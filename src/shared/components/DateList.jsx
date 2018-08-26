@@ -6,11 +6,12 @@ import DateListItem from './DateListItem';
 import DateListDay from './DateListDay';
 import getTime from '../utils/getTime'; // TODO: refactor aliases for ssr
 import clubs from '../utils/maps/clubs';
-import { dateListRoot, dateListWrapper, actNameDateList } from '../styles/styles';
+import { dateListRoot, dateListItem, dateListWrapper, actNameDateList } from '../styles/styles';
 
 const styles = {
   'date-list-root': dateListRoot,
   'date-list-wrapper': dateListWrapper,
+  'date-list-item': dateListItem,
   'act-name-date-list': actNameDateList
 };
 
@@ -18,14 +19,14 @@ const styles = {
 const DateList = (props) => {
   const { classes, dates } = props;
   const datesKeys = Object.keys(dates);
-  const datesArr = [];
+  const content = [];
 
   for (let i = 0; i < datesKeys.length; i++) {
-    datesArr.push(<DateListDay key={shortId.generate()} dateTime={datesKeys[i]} />);
+    content.push(<DateListDay key={shortId.generate()} dateTime={datesKeys[i]} />);
     for (let j = 0; j < dates[datesKeys[i]].length; j++) {
       const time = new Date(dates[datesKeys[i]][j].date);
       const showTime = getTime(time);
-      datesArr.push( // eslint-disable-line
+      content.push( // eslint-disable-line
         <DateListItem
           key={shortId.generate()}
           dateTime={dates[datesKeys[i]][j].date}
@@ -42,7 +43,15 @@ const DateList = (props) => {
     <div className={classes['date-list-root']}>
       <h3 className={classes['act-name-date-list']}>{`${props.nameFirst} ${props.nameLast}`} </h3>
       <ul className={classes['date-list-wrapper']}>
-        {datesArr}
+        {content.length
+          ? content
+          : <div
+            key="NA"
+            className={classes['date-list-item']}
+            style={{ padding: '0.5rem' }}
+          >
+              No dates are available at this time.
+            </div>}
       </ul>
     </div>
   );

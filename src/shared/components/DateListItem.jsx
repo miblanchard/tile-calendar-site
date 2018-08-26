@@ -3,11 +3,16 @@ import injectSheet from 'react-jss';
 import PropTypes from 'prop-types';
 import { dateListItem, venue, time } from '../styles/styles';
 
-const styles = {
-  'date-list-item': dateListItem,
+const styles = theme => ({
+  'date-list-item': {
+    ...dateListItem,
+    '&:hover': {
+      color: theme.palette.grey.light
+    }
+  },
   venue,
   time
-};
+});
 
 
 // clickable link that displays 1 gig

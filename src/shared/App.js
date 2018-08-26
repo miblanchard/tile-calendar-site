@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import ActTile from './components/ActTile';
 import DateList from './components/DateList';
 import Searchbar from './components/Searchbar';
-// import Banner from './components/Banner';
 import { globalStyles, wrapper } from './styles/styles';
 
 const styles = theme => ({
@@ -69,7 +68,7 @@ class App extends Component {
       searchText: '',
       redirectHome: false,
       searching: false,
-      endIndex: 10
+      endIndex: 12
     };
 
     this.handleTileClick = this.handleTileClick.bind(this);
@@ -108,7 +107,7 @@ class App extends Component {
 
   trackScrolling() {
     function isBottom(el) {
-      return el.getBoundingClientRect().bottom <= window.innerHeight;
+      return el.getBoundingClientRect().bottom - 426 <= window.innerHeight;
     }
 
     const wrappedElement = this.wrapperRef.current;
@@ -250,16 +249,17 @@ class App extends Component {
       <div ref={this.wrapperRef}>
         <div className={classes.banner}>
           <div className={classes.bannerInner}>
-            <h1 style={{ margin: 0, 'padding-top': '1rem' }}>NYC Comedy Calendar</h1>
+            <h1 style={{ margin: 0, paddingTop: '1rem' }}>NYC Comedy Calendar</h1>
             <p>
               Lorem Ipsum yada yada yada
               Lorem Ipsum yada yada yada
               Lorem Ipsum yada yada yada
             </p>
             <Searchbar
+              searchInputRef={this.searchInputRef}
               value={this.state.searchText}
               handleChange={this.handleSearchChange}
-              />
+            />
           </div>
         </div>
         <div className={classes.wrapper}>
@@ -273,6 +273,7 @@ class App extends Component {
 App.propTypes = {
   // eslint-disable-next-line
   data: PropTypes.object,
+
   // jss
   // eslint-disable-next-line
   classes: PropTypes.object.isRequired,

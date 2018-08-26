@@ -9,8 +9,9 @@
     "start": "node hostJSON.js & webpack -w --progress --config webpack/client.dev.js & webpack -w --progress --config webpack/server.dev.js & nodemon server.js",
     "start:prod": "node hostJSON.js & webpack -p -w --progress --config webpack/client.prod.js & webpack -p -w --progress --config webpack/server.prod.js & nodemon server.js",
     "start:server": "nodemon src/server/server.js --exec babel-node --presets env",
-    "build": "webpack -p --config webpack/client.prod.js --profile --json > stats.json",
-    "analyze": "webpack-bundle-analyzer stats.json",
+    "build": "webpack -p --config webpack/client.prod.js --profile --json > client.stats.json && webpack -p --config webpack/server.prod.js --profile --json > server.stats.json",
+    "analyze:client": "webpack-bundle-analyzer client.stats.json",
+    "analyze:server": "webpack-bundle-analyzer server.stats.json",
     "lint": "eslint --ext .jsx --config .eslintrc -o lint_result.txt ./client"
   },
   "dependencies": {
