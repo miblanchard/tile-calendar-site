@@ -11,7 +11,6 @@ import { banner, bannerInner, globalStyles, wrapper } from './styles/styles';
 
 // TODO post mvp
 /*
-  Add cache control policy
   Add needsUpdated images and twitter handles
   Serve image assets
   Lazy load actTiles
@@ -19,7 +18,6 @@ import { banner, bannerInner, globalStyles, wrapper } from './styles/styles';
   Keep empty tiles at bottom of feed
   Favicon
 */
-
 
 /*
   still experimenting with ways to make jss more readable/maintainable.  tried making an external

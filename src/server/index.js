@@ -16,6 +16,12 @@ import renderFullPage from './renderFullPage';
 import { fetchInitialData } from '../shared/api';
 import theme from '../shared/styles/theme';
 
+// TODO
+/*
+  set cookie so fetchInitialData isn't firing every request
+  Add cache control policy
+*/
+
 const app = express();
 
 // app.use(cors());
@@ -32,6 +38,7 @@ app.get('/', (req, res, next) => {
   const sheetsRegistry = new SheetsRegistry();
   const generateClassName = createGenerateClassName();
   const context = {};
+
 
   fetchInitialData()
     .then((data) => {
