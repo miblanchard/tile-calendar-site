@@ -1,21 +1,17 @@
 import React, { PureComponent } from 'react';
 import injectSheet from 'react-jss';
 import PropTypes from 'prop-types';
-import { searchBar } from '../styles/styles';
+import { searchBar, searchLabel, searchWrapper } from '../styles/styles';
 
 const styles = {
   searchWrapper: {
-    'margin-bottom': '2rem',
+    ...searchWrapper,
   },
   searchLabel: {
-    display: 'block',
-    padding: '0.5rem'
+    ...searchLabel,
   },
   searchBar: {
     ...searchBar,
-    display: 'block',
-    margin: 'auto',
-    'margin-top': '1rem'
   }
 };
 
@@ -28,9 +24,11 @@ class Searchbar extends PureComponent {
 
   componentDidMount() {
     /*
-      this prevents the searchbar from losing focus when clicking on it also redirects to '/'
-      it feels hacky, creating so many refs in <App /> also feels like bad practice, better way
-      to refactor?
+      this prevents the searchbar from losing focus when clicking on it also closes an open actTile
+      (redirects to '/')
+
+      it feels hacky, creating so many refs in <App /> also feels like bad practice, better way to
+      refactor?
     */
     this.searchInputRef.current.focus();
   }

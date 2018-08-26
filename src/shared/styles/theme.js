@@ -49,6 +49,11 @@ module.exports = {
       white: '#f9f9f9',
       black: '#333333',
     },
+    weight: {
+      light: 200,
+      normal: 400,
+      heavy: 700
+    },
     shadow: [
       ['1px', '1px', '#000'],
       ['-1px', '-1px', '#000'],

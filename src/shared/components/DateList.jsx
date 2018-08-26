@@ -8,12 +8,27 @@ import getTime from '../utils/getTime'; // TODO: refactor aliases for ssr
 import clubs from '../utils/maps/clubs';
 import { dateListRoot, dateListItem, dateListWrapper, actNameDateList } from '../styles/styles';
 
-const styles = {
-  'date-list-root': dateListRoot,
-  'date-list-wrapper': dateListWrapper,
-  'date-list-item': dateListItem,
-  'act-name-date-list': actNameDateList
-};
+const styles = theme => ({
+  'date-list-root': {
+    ...dateListRoot,
+  },
+  'date-list-item': {
+    ...dateListItem,
+    'border-top': `1px solid ${theme.text.color.white}`,
+    color: theme.text.color.white
+  },
+  'date-list-wrapper': {
+    ...dateListWrapper,
+    '&:last-child': {
+      'border-bottom': `1px solid ${theme.text.color.white}`,
+    }
+  },
+  'act-name-date-list': {
+    ...actNameDateList,
+    color: theme.text.color.white,
+    'text-shadow': theme.text.shadow
+  }
+});
 
 // generates a datelist that is displayed when a tile is clicked on
 const DateList = (props) => {
@@ -48,7 +63,7 @@ const DateList = (props) => {
           : <div
             key="NA"
             className={classes['date-list-item']}
-            style={{ padding: '0.5rem' }}
+            style={{ padding: '0.6rem' }}
           >
               No dates are available at this time.
             </div>}

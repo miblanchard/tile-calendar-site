@@ -45,15 +45,15 @@ app.get('/', (req, res, next) => {
         </JssProvider>
       );
 
-      // if (context.url) {
-      //   res.writeHead(301, {
-      //     Location: context.url
-      //   });
-      //   res.end();
-      // } else {
-      res.writeHead(200, { 'Content-Type': 'text/html' });
-      res.end(renderFullPage(jsx, serialize(data), sheetsRegistry.toString()));
-      // }
+      if (context.url) {
+        res.writeHead(301, {
+          Location: context.url
+        });
+        res.end();
+      } else {
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.end(renderFullPage(jsx, serialize(data), sheetsRegistry.toString()));
+      }
     }).catch((e) => {
       console.log(e);
       response.status(500).json({ error: e.message, stack: e.stack });

@@ -15,18 +15,26 @@ const styles = theme => ({
     ...actTileRoot,
     'box-shadow': `4px 4px 2px -2px ${theme.palette.grey.main}`
   },
-  overlay,
-  overlayInactive,
-  overlayActive,
+  overlay: {
+    ...overlay,
+    '& .act-name': {
+      'text-shadow': theme.text.shadow,
+      position: 'absolute',
+      color: theme.text.color.white,
+      border: `1px solid ${theme.text.color.white}`,
+      'border-radius': '0.2rem',
+      padding: '0.25rem 1rem',
+      margin: 'auto',
+    },
+  },
+  overlayInactive: {
+    ...overlayInactive,
+  },
+  overlayActive: {
+    ...overlayActive,
+  },
 });
 
-/*
-  ActTile components (as they're implement right now in App.jsx) will always render something
-  here we check to see if:
-    1. the component should be displayed
-    2. the component is 'active'
-      a. if the component is not active render it with a <Link> wrapper
-*/
 class ActTile extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     if (this.props.active === nextProps.active) {
@@ -38,6 +46,13 @@ class ActTile extends Component {
     return true;
   }
 
+  /*
+    ActTile components (as they're implement right now in App.jsx) will always render as a children
+    prop, in render() we check to see if:
+      1. the component should be displayed (if this.state.searching === true it might not be)
+      2. the component is 'active'
+        a. if the component is active render it without a <Link> wrapper
+  */
   render() {
     if (!this.props.display) return null;
 
