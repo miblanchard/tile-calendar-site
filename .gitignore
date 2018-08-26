@@ -1,7 +1,7 @@
 node_modules
 yarn-error.log
 src/build
-stats.json
+*.stats.json
 config
 lint_result.txt
 server.js

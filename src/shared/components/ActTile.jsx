@@ -11,27 +11,48 @@ import {
 } from '../styles/styles';
 
 const styles = theme => ({
-  'act-tile-root': actTileRoot,
-  overlay,
-  overlayInactive,
-  overlayActive,
+  'act-tile-root': {
+    ...actTileRoot,
+    'box-shadow': `4px 4px 2px -2px ${theme.palette.grey.main}`
+  },
+  overlay: {
+    ...overlay,
+    '& .act-name': {
+      'text-shadow': theme.text.shadow,
+      position: 'absolute',
+      color: theme.text.color.white,
+      border: `1px solid ${theme.text.color.white}`,
+      'border-radius': '0.2rem',
+      padding: '0.25rem 1rem',
+      margin: 'auto',
+    },
+  },
+  overlayInactive: {
+    ...overlayInactive,
+  },
+  overlayActive: {
+    ...overlayActive,
+  },
 });
 
-/*
-  ActTile components (as they're implement right now in App.jsx) will always render something
-  here we check to see if:
-    1. the component should be displayed
-    2. the component is 'active'
-      a. if the component is not active render it with a <Link> wrapper
-*/
 class ActTile extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     if (this.props.active === nextProps.active) {
+      if (this.props.display !== nextProps.display) {
+        return true;
+      }
       return false;
     }
     return true;
   }
 
+  /*
+    ActTile components (as they're implement right now in App.jsx) will always render as a children
+    prop, in render() we check to see if:
+      1. the component should be displayed (if this.state.searching === true it might not be)
+      2. the component is 'active'
+        a. if the component is active render it without a <Link> wrapper
+  */
   render() {
     if (!this.props.display) return null;
 
@@ -47,7 +68,7 @@ class ActTile extends Component {
             [classes.overlayActive]: this.props.active,
           })}
         />
-        <img className="headshot" src={this.props.headshot_url} alt={`${this.props.name_first}`} />
+        <img className="headshot" src={this.props.headshotUrl} alt={`${this.props.nameFirst}`} />
         {this.props.children}
       </div>
     );
@@ -69,7 +90,7 @@ class ActTile extends Component {
 }
 
 ActTile.defaultProps = {
-  headshot_url: 'https://images.vexels.com/media/users/3/140837/isolated/preview/cb26475f9b63061d472be050685600a7-microphone-with-stand-by-vexels.png',
+  headshotUrl: 'https://images.vexels.com/media/users/3/140837/isolated/preview/cb26475f9b63061d472be050685600a7-microphone-with-stand-by-vexels.png',
 };
 
 ActTile.propTypes = {
@@ -77,8 +98,8 @@ ActTile.propTypes = {
   display: PropTypes.bool.isRequired,
   id: PropTypes.number.isRequired,
   handleClick: PropTypes.func.isRequired,
-  name_first: PropTypes.string.isRequired,
-  headshot_url: PropTypes.string,
+  nameFirst: PropTypes.string.isRequired,
+  headshotUrl: PropTypes.string,
   // eslint-disable-next-line
   children: PropTypes.object.isRequired,
 

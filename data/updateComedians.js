@@ -1,34 +1,43 @@
 const fs = require('fs');
 const data = require('./data.json');
 const cellar = require('./cellar_village_fat.json');
+const blacklist = require('./blacklist');
 
 const comedians = Object.keys(cellar);
 const existingActs = Object.keys(data.acts);
 const added = {};
 const needsUpdated = [];
 
+// add dates to existing comedians, add comedian if not in JSON obj
 for (let i = 0; i < comedians.length; i++) {
-  if (existingActs.includes(comedians[i])) {
-    data.acts[comedians[i]].dates = data.acts[comedians[i]].dates.concat( cellar[comedians[i]].dates);
-    added[comedians[i]] = cellar[comedians[i]].dates;
-  } else {
-    data.acts[comedians[i]] = {};
-    const currentLength = Object.keys(data.acts).length;
-    data.acts[comedians[i]].id = currentLength - 1;
-    data.acts[comedians[i]].dates = cellar[comedians[i]].dates;
-    added[comedians[i]] = cellar[comedians[i]].dates;
+  // exclude blacklisted entries like "More Announced Soon"
+  if (!blacklist.includes(comedians[i])) {
+    if (existingActs.includes(comedians[i])) {
+      // TODO: once more clubs are added this will need refactored to account for redundant entries
+      data.acts[comedians[i]].dates = cellar[comedians[i]].dates;
+      added[comedians[i]] = cellar[comedians[i]].dates;
+    } else {
+      data.acts[comedians[i]] = {};
+      data.acts[comedians[i]].id = Object.keys(data.acts).length;
+      data.acts[comedians[i]].dates = cellar[comedians[i]].dates;
+      added[comedians[i]] = cellar[comedians[i]].dates;
+    }
   }
 }
 
+// get updated length of acts obj after new comedians are added
 const existingActsUpdated = Object.keys(data.acts);
+
 for (let i = 0; i < existingActsUpdated.length; i++) {
+  // if any acts are missing headshots or twitter handles add them to the needsUpdated array
   if (!data.acts[existingActsUpdated[i]].twitter_handle) {
-    needsUpdated.push(existingActsUpdated[i] + ' twitter');
+    needsUpdated.push(`${existingActsUpdated[i]} twitter`);
   }
   if (!data.acts[existingActsUpdated[i]].headshot_url) {
-    needsUpdated.push(existingActsUpdated[i] + ' image');
+    needsUpdated.push(`${existingActsUpdated[i]} image`);
   }
 
+  // add name_first and name_last attributes to new acts
   const nameArr = existingActsUpdated[i].split(' ');
   if (!data.acts[existingActsUpdated[i]].name_first) {
     const firstName = nameArr[0];
@@ -42,8 +51,20 @@ for (let i = 0; i < existingActsUpdated.length; i++) {
 
 const now = new Date();
 
-fs.writeFileSync('data.json', JSON.stringify(data));
-fs.writeFileSync(`./addedLogs/${now}.json`, JSON.stringify(added));
-fs.writeFileSync(`./needsUpdated/${now}.json`, JSON.stringify(needsUpdated));
+const addedPath = `./addedLogs/${now}.json`;
+const updatedPath = `./needsUpdated/${now}.json`;
 
-console.log('data.json\n./addedLogs/${now}.json\n./needsUpdated/${now}.json\nUpdated')
+fs.writeFile('data.json', JSON.stringify(data), (error) => {
+  if (error) throw error;
+  console.log('data.json has been saved!');
+});
+
+fs.writeFile(addedPath, JSON.stringify(added), (error) => {
+  if (error) throw error;
+  console.log(`${addedPath} has been saved!`);
+});
+
+fs.writeFile(updatedPath, JSON.stringify(needsUpdated), (error) => {
+  if (error) throw error;
+  console.log(`${updatedPath} has been saved!`);
+});

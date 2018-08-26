@@ -1,22 +1,57 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import injectSheet from 'react-jss';
 import PropTypes from 'prop-types';
-import { textInput, inputButton } from '../styles/styles';
+import { searchBar, searchLabel, searchWrapper } from '../styles/styles';
 
 const styles = {
-  'text-input': textInput,
-  'input-button': inputButton
+  searchWrapper: {
+    ...searchWrapper,
+  },
+  searchLabel: {
+    ...searchLabel,
+  },
+  searchBar: {
+    ...searchBar,
+  }
 };
 
-const Searchbar = (props) => {
-  const { classes } = props;
-  return (
-    <label>
-      Search for comedian:&nbsp;
-      <input className={classes['text-input']} type="text" value={props.value} onChange={props.handleChange} />
-    </label>
-  );
-};
+class Searchbar extends PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.searchInputRef = React.createRef();
+  }
+
+  componentDidMount() {
+    /*
+      this prevents the searchbar from losing focus when clicking on it also closes an open actTile
+      (redirects to '/')
+
+      it feels hacky, creating so many refs in <App /> also feels like bad practice, better way to
+      refactor?
+    */
+    this.searchInputRef.current.focus();
+  }
+
+  render() {
+    const { classes } = this.props;
+    return (
+      <div className={classes.searchWrapper}>
+        <label htmlFor="text-input" className={classes.searchLabel}>
+        SEARCH FOR COMEDIAN
+        <input
+          ref={this.searchInputRef}
+          className={classes.searchBar}
+          id="text-input"
+          type="text"
+          value={this.props.value}
+          onChange={this.props.handleChange}
+        />
+        </label>
+      </div>
+    );
+  }
+}
 
 Searchbar.propTypes = {
   value: PropTypes.string.isRequired,

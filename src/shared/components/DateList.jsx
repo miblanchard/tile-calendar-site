@@ -6,26 +6,42 @@ import DateListItem from './DateListItem';
 import DateListDay from './DateListDay';
 import getTime from '../utils/getTime'; // TODO: refactor aliases for ssr
 import clubs from '../utils/maps/clubs';
-import { dateListRoot, dateListWrapper, actNameDateList } from '../styles/styles';
+import { dateListRoot, dateListItem, dateListWrapper, actNameDateList } from '../styles/styles';
 
-const styles = {
-  'date-list-root': dateListRoot,
-  'date-list-wrapper': dateListWrapper,
-  'act-name-date-list': actNameDateList
-};
+const styles = theme => ({
+  'date-list-root': {
+    ...dateListRoot,
+  },
+  'date-list-item': {
+    ...dateListItem,
+    'border-top': `1px solid ${theme.text.color.white}`,
+    color: theme.text.color.white
+  },
+  'date-list-wrapper': {
+    ...dateListWrapper,
+    '&:last-child': {
+      'border-bottom': `1px solid ${theme.text.color.white}`,
+    }
+  },
+  'act-name-date-list': {
+    ...actNameDateList,
+    color: theme.text.color.white,
+    'text-shadow': theme.text.shadow
+  }
+});
 
 // generates a datelist that is displayed when a tile is clicked on
 const DateList = (props) => {
   const { classes, dates } = props;
   const datesKeys = Object.keys(dates);
-  const datesArr = [];
+  const content = [];
 
   for (let i = 0; i < datesKeys.length; i++) {
-    datesArr.push(<DateListDay key={shortId.generate()} dateTime={datesKeys[i]} />);
+    content.push(<DateListDay key={shortId.generate()} dateTime={datesKeys[i]} />);
     for (let j = 0; j < dates[datesKeys[i]].length; j++) {
       const time = new Date(dates[datesKeys[i]][j].date);
       const showTime = getTime(time);
-      datesArr.push( // eslint-disable-line
+      content.push( // eslint-disable-line
         <DateListItem
           key={shortId.generate()}
           dateTime={dates[datesKeys[i]][j].date}
@@ -40,17 +56,25 @@ const DateList = (props) => {
 
   return (
     <div className={classes['date-list-root']}>
-      <h3 className={classes['act-name-date-list']}>{`${props.name_first} ${props.name_last}`} </h3>
+      <h3 className={classes['act-name-date-list']}>{`${props.nameFirst} ${props.nameLast}`} </h3>
       <ul className={classes['date-list-wrapper']}>
-        {datesArr}
+        {content.length
+          ? content
+          : <div
+            key="NA"
+            className={classes['date-list-item']}
+            style={{ padding: '0.6rem' }}
+          >
+              No dates are available at this time.
+            </div>}
       </ul>
     </div>
   );
 };
 
 DateList.propTypes = {
-  name_first: PropTypes.string.isRequired,
-  name_last: PropTypes.string.isRequired,
+  nameFirst: PropTypes.string.isRequired,
+  nameLast: PropTypes.string.isRequired,
   dates: PropTypes.objectOf(PropTypes.array).isRequired,
 
   // jss

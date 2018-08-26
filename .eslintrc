@@ -1,12 +1,14 @@
 {
   "extends": [
-    "airbnb"
+    "airbnb",
+    "plugin:security/recommended"
   ],
   "parser": "babel-eslint",
   "plugins": [
     "react",
     "jsx-a11y",
-    "import"
+    "import",
+    "security"
   ],
   "settings": {
     "import/resolver": {
