@@ -14,13 +14,9 @@ import {
 import App from '../shared/App';
 import renderFullPage from './renderFullPage';
 import { fetchInitialData } from '../shared/api';
+import theme from '../shared/styles/theme';
 
 const app = express();
-
-const theme = {
-  colorPrimary: '#ffa31a',
-  colorSecondary: '#ff9933'
-};
 
 // app.use(cors());
 
@@ -66,6 +62,10 @@ app.get('/', (req, res, next) => {
 
 app.get('/*', (req, res, next) => {
   res.redirect(301, '/');
+  // res.writeHead(301, {
+  //     Location: context.url
+  // });
+  // res.end();
 });
 
 app.listen(3000, () => {

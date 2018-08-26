@@ -40,7 +40,7 @@ const DateList = (props) => {
 
   return (
     <div className={classes['date-list-root']}>
-      <h3 className={classes['act-name-date-list']}>{`${props.name_first} ${props.name_last}`} </h3>
+      <h3 className={classes['act-name-date-list']}>{`${props.nameFirst} ${props.nameLast}`} </h3>
       <ul className={classes['date-list-wrapper']}>
         {datesArr}
       </ul>
@@ -49,8 +49,8 @@ const DateList = (props) => {
 };
 
 DateList.propTypes = {
-  name_first: PropTypes.string.isRequired,
-  name_last: PropTypes.string.isRequired,
+  nameFirst: PropTypes.string.isRequired,
+  nameLast: PropTypes.string.isRequired,
   dates: PropTypes.objectOf(PropTypes.array).isRequired,
 
   // jss

@@ -1,20 +1,39 @@
 import React from 'react';
 import injectSheet from 'react-jss';
 import PropTypes from 'prop-types';
-import { textInput, inputButton } from '../styles/styles';
+import { searchBar } from '../styles/styles';
 
 const styles = {
-  'text-input': textInput,
-  'input-button': inputButton
+  searchWrapper: {
+    'margin-bottom': '2rem',
+  },
+  searchLabel: {
+    display: 'block',
+    padding: '0.5rem'
+  },
+  searchBar: {
+    ...searchBar,
+    display: 'block',
+    margin: 'auto',
+    'margin-top': '1rem'
+  }
 };
 
 const Searchbar = (props) => {
   const { classes } = props;
   return (
-    <label>
-      Search for comedian:&nbsp;
-      <input className={classes['text-input']} type="text" value={props.value} onChange={props.handleChange} />
-    </label>
+    <div className={classes.searchWrapper}>
+      <label htmlFor="text-input" className={classes.searchLabel}>
+        SEARCH FOR COMEDIAN
+        <input
+          className={classes.searchBar}
+          id="text-input"
+          type="text"
+          value={props.value}
+          onChange={props.handleChange}
+        />
+      </label>
+    </div>
   );
 };
 

@@ -22,8 +22,8 @@ const headshot = {
 module.exports = {
   globalStyles: {
     body: {
-      font: '100% Helvetica, sans-serif',
-      backgroundColor: '#C4D5E6',
+      margin: 0,
+      'font-family': 'Lato',
     },
     a: {
       'text-decoration': 'none',
@@ -37,7 +37,7 @@ module.exports = {
     width: '280px',
     height: 'auto',
     margin: '0 1.2rem 2rem',
-    'border-radius': '0.2rem',
+    'border-radius': '0.5rem',
     overflow: 'hidden',
   },
   actNameDateList: {
@@ -94,18 +94,6 @@ module.exports = {
   day: {
     margin: 'auto',
   },
-  inputButton: {
-    position: 'relative',
-    padding: '0.25rem 0.5rem',
-    margin: '1rem 0 0 1rem',
-    border: '2px solid #16568d',
-    'background-color': '#16568d',
-    color: '#fafafa',
-    '&:hover': {
-      'background-color': '#fafafa',
-      color: '#16568d',
-    }
-  },
   overlay: {
     height: '426px',
     'background-color': 'black',
@@ -129,9 +117,9 @@ module.exports = {
       opacity: 1
     },
   },
-  textInput: {
+  searchBar: {
     padding: '0.3rem 0.5rem',
-    background: 'rgba(50, 50, 50, 0.2)',
+    background: 'rgba(200, 200, 200, 0.4)',
     border: '0px solid #dbdbdb',
   },
   time: {

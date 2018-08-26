@@ -6,10 +6,10 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "node hostJSON.js & webpack -w --progress --config webpack/client.prod.js & webpack -w --progress --config webpack/server.prod.js & nodemon server.js",
-    "start:dev": "node hostJSON.js & webpack -w --progress --config webpack/client.dev.js & webpack -w --progress --config webpack/server.dev.js & nodemon server.js",
+    "start": "node hostJSON.js & webpack -w --progress --config webpack/client.dev.js & webpack -w --progress --config webpack/server.dev.js & nodemon server.js",
+    "start:prod": "node hostJSON.js & webpack -p -w --progress --config webpack/client.prod.js & webpack -p -w --progress --config webpack/server.prod.js & nodemon server.js",
     "start:server": "nodemon src/server/server.js --exec babel-node --presets env",
-    "build": "webpack -p --config webpack/webpack.prod.js --profile --json > stats.json",
+    "build": "webpack -p --config webpack/client.prod.js --profile --json > stats.json",
     "analyze": "webpack-bundle-analyzer stats.json",
     "lint": "eslint --ext .jsx --config .eslintrc -o lint_result.txt ./client"
   },
@@ -45,6 +45,7 @@
     "babel-plugin-react-svg": "^2.1.0",
     "babel-plugin-sass-export": "^0.0.3",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-react-remove-prop-types": "^0.4.15",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "babel-register": "^6.26.0",

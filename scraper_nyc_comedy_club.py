@@ -69,7 +69,7 @@ def getShows(base, urlArr):
     return acts
 
 
-asdf = getShows(base_url, datesArr)
+allShows = getShows(base_url, datesArr)
 
 
 def write_to_file(data):
@@ -77,4 +77,4 @@ def write_to_file(data):
         json.dump(data, outfile)
 
 
-write_to_file(asdf)
+write_to_file(allShows)

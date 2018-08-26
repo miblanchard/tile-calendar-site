@@ -11,7 +11,10 @@ import {
 } from '../styles/styles';
 
 const styles = theme => ({
-  'act-tile-root': actTileRoot,
+  'act-tile-root': {
+    ...actTileRoot,
+    'box-shadow': `4px 4px 2px -2px ${theme.palette.grey.main}`
+  },
   overlay,
   overlayInactive,
   overlayActive,
@@ -50,7 +53,7 @@ class ActTile extends Component {
             [classes.overlayActive]: this.props.active,
           })}
         />
-        <img className="headshot" src={this.props.headshot_url} alt={`${this.props.name_first}`} />
+        <img className="headshot" src={this.props.headshotUrl} alt={`${this.props.nameFirst}`} />
         {this.props.children}
       </div>
     );
@@ -72,7 +75,7 @@ class ActTile extends Component {
 }
 
 ActTile.defaultProps = {
-  headshot_url: 'https://images.vexels.com/media/users/3/140837/isolated/preview/cb26475f9b63061d472be050685600a7-microphone-with-stand-by-vexels.png',
+  headshotUrl: 'https://images.vexels.com/media/users/3/140837/isolated/preview/cb26475f9b63061d472be050685600a7-microphone-with-stand-by-vexels.png',
 };
 
 ActTile.propTypes = {
@@ -80,8 +83,8 @@ ActTile.propTypes = {
   display: PropTypes.bool.isRequired,
   id: PropTypes.number.isRequired,
   handleClick: PropTypes.func.isRequired,
-  name_first: PropTypes.string.isRequired,
-  headshot_url: PropTypes.string,
+  nameFirst: PropTypes.string.isRequired,
+  headshotUrl: PropTypes.string,
   // eslint-disable-next-line
   children: PropTypes.object.isRequired,
 
