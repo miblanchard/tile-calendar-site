@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import injectSheet from 'react-jss';
 import shortId from 'shortid';
 import PropTypes from 'prop-types';
@@ -31,32 +31,33 @@ const styles = theme => ({
 });
 
 // generates a datelist that is displayed when a tile is clicked on
-const DateList = (props) => {
-  const { classes, dates } = props;
+const DateList = ({ classes, nameFirst, nameLast, dates }) => {
   const datesKeys = Object.keys(dates);
-  const content = [];
-
-  for (let i = 0; i < datesKeys.length; i++) {
-    content.push(<DateListDay key={shortId.generate()} dateTime={datesKeys[i]} />);
-    for (let j = 0; j < dates[datesKeys[i]].length; j++) {
-      const time = new Date(dates[datesKeys[i]][j].date);
+  const content = datesKeys.map((dateTime) => {
+    const day = dates[dateTime].map((gig, i) => {
+      const time = new Date(gig.date);
       const showTime = getTime(time);
-      content.push( // eslint-disable-line
-        <DateListItem
-          key={shortId.generate()}
-          dateTime={dates[datesKeys[i]][j].date}
-          link={dates[datesKeys[i]][j].link}
-          showTime={showTime}
-          venue={clubs[dates[datesKeys[i]][j].venueid]}
-          index={j}
-        />
-      ); // eslint-disable-line
-    }
-  }
+      return (<DateListItem
+        key={`${gig.date}${gig.venueid}`}
+        dateTime={gig.date}
+        link={gig.link}
+        showTime={showTime}
+        venueName={clubs[gig.venueid]}
+        index={i}
+      />
+      );
+    });
+    return (
+      <Fragment key={dateTime}>
+        <DateListDay dateTime={dateTime} />
+        {day}
+      </Fragment>
+    );
+  });
 
   return (
     <div className={classes['date-list-root']}>
-      <h3 className={classes['act-name-date-list']}>{`${props.nameFirst} ${props.nameLast}`} </h3>
+      <h3 className={classes['act-name-date-list']}>{`${nameFirst} ${nameLast}`} </h3>
       <ul className={classes['date-list-wrapper']}>
         {content.length
           ? content

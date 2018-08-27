@@ -36,6 +36,12 @@ const styles = theme => ({
 });
 
 class ActTile extends Component {
+  /*
+    Since we'll only need to update one of the components on the page at a time when it's clicked,
+    if the active prop hasn't changed, do not update component.
+
+    We'll also check the display prop to handle cases where the searching state of App.jsx is true
+  */
   shouldComponentUpdate(nextProps, nextState) {
     if (this.props.active === nextProps.active) {
       if (this.props.display !== nextProps.display) {
@@ -47,8 +53,8 @@ class ActTile extends Component {
   }
 
   /*
-    ActTile components (as they're implement right now in App.jsx) will always render as a children
-    prop, in render() we check to see if:
+    ActTile components (as they're implement right now in App.jsx) will always render in <Route />
+    as a children prop, in render() we check to see if:
       1. the component should be displayed (if this.state.searching === true it might not be)
       2. the component is 'active'
         a. if the component is active render it without a <Link> wrapper

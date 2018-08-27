@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import App from '../shared/App';
 
-class Main extends React.Component {
+class Main extends Component {
   // Remove the server-side injected CSS.
   componentDidMount() {
     const jssStyles = document.getElementById('jss-server-side');

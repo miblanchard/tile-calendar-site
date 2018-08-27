@@ -23,6 +23,7 @@
     "comma-dangle": "off",
     "no-plusplus": "off",
     "no-unused-vars": ["error", { "args": "none" }],
+    "object-curly-newline": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/no-children-prop": "off",
     "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
