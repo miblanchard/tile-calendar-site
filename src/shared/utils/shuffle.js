@@ -1,3 +1,4 @@
+
 /* eslint no-param-reassign: "off" */
 // just a Fisher-Yates algorithm to shuffle array
 module.exports = (array) => {
